@@ -218,22 +218,32 @@ The spotify connect client can now be started from a skill by executing <code>li
 These steps build off of Mark I image
 
 sudo nano /etc/cron.hourly/mycroft-core
+
    comment out "apt-get install..." for now
 
 sudo apt-get remove mycroft-mark-1
+
 sudo apt-get remove mycroft-core
 
 cp /etc/mycroft/mycroft.conf  /etc/mycroft/mycroft.sav
 
 cd ~
+
 wget -N https://rawgit.com/MycroftAI/enclosure-picroft/stretch/home/pi/update.sh
+
 Edited update.sh as found on image...
+
 bash update.sh
+
   Y
+  
   Y
+  
   N
   
+  
 sudo chown pi:pi /var/log/mycroft/*
+
 sudo chmod 666 /var/log/mycroft/*
 
 Manually merge the /etc/mycroft/mycroft.conf with parts desired from mycroft.sav
