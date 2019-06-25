@@ -1,4 +1,19 @@
-# Recipe for creating the Mark 1 Image
+# Recipe for creating the Mark-2.pi Image
+
+This image is built on top of the original Mycroft Mark 1, modified appropriately to allow a Github-style installation of mycroft-core.  Essential differences between this image and the Mark 1 are:
+* Removed the mycroft-core and Mycorft-mark-1 packages
+* Cloned mycroft-core under the pi user
+* Added an auto_run.sh script for the pi user in .bashrc
+
+Importantly, the mycroft-admin-service is still installed on this image and continues to run as the root user to provide wifi setup.  This also requires the specific version of Jessie used here, as the newer kernel does not allow the wifi splitting used in the captive portal approach.
+
+### Table of contents
+* [Original Mark 1 recipe](#mark-1-recipe)
+* [Additional steps for Mark-2.pi](#mark-2-remix-recipe)
+
+--------------------------------------------------------------------------------------------
+
+# Mark 1 Recipe
 
 ## Install and Configure Base Raspbian Image
 
@@ -213,46 +228,62 @@ The spotify connect client can now be started from a skill by executing <code>li
 * <code>history -c</code>
 * <code>history -w</code>
 
-## Mark II
+--------------------------------------------------------------------------------------------
 
-These steps build off of Mark I image
+# Mark 2 Remix Recipe
 
-sudo nano /etc/cron.hourly/mycroft-core
-
-   comment out "apt-get install..." for now
-
+## Remove the Debian packages
 sudo apt-get remove mycroft-mark-1
-
 sudo apt-get remove mycroft-core
+sudo apt-get remove avrdude libftdi1
+sudo rm -rf /opt/venv
 
-cp /etc/mycroft/mycroft.conf  /etc/mycroft/mycroft.sav
+## Disable the auto-update of Debian
+sudo nano /etc/cron.hourly/mycroft-core
+   comment out "apt-get install..." for now
+_TODO: Replace with an hourly(?) update of the Picroft packages_
 
+## Install I2C for the audio output
+sudo raspi-config, turn on i2c
+sudo apt-get install i2c-tools
+
+## Install the mycroft-core code
 cd ~
-
 wget -N https://rawgit.com/MycroftAI/enclosure-picroft/stretch/home/pi/update.sh
-
 Edited update.sh as found on image...
-
 bash update.sh
-
   Y
-  
   Y
-  
   N
   
-  
-sudo chown pi:pi /var/log/mycroft/*
+## Setup the machine config
+`sudo nano /etc/mycroft/mycroft.conf`
+```
+{
+    "play_wav_cmdline": "aplay -Dplughw:ArrayUAC10,0 %1",
+    "play_mp3_cmdline": "mpg123 -d plughw:ArrayUAC10,0 %1",
+    "enclosure": {
+        "platform": "mycroft_mark_2pi",
+	"platform_build": 1
+    },
+    "ipc_path": "/ramdisk/mycroft/ipc/"
+}
+```
 
+sudo chown pi:pi /var/log/mycroft/*
 sudo chmod 666 /var/log/mycroft/*
 
-Manually merge the /etc/mycroft/mycroft.conf with parts desired from mycroft.sav
-
+## Redub things to "Mark 2"
 Edited .bashrc
   - Rename MARK1-README to MARK2-README
 Renamed and edited content of MARK2-README file
+
 
 Changed auto_run.sh
    - Don't start CLI
    - Use $HOME instead of ~
    - The "start-mycroft.sh all" is double-run at the bottom of the script.
+   - Added i2c initial volume
+   
+## Temporary: Fix skills/__main__.py
+Disable the code that reinstalls the mycroft-core package.
