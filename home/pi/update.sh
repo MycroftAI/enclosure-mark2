@@ -40,7 +40,7 @@ then
     esac
 
     # Create basic folder structures
-    sudo mkdir /etc/mycroft/
+#    sudo mkdir /etc/mycroft/
     mkdir ~/bin
 
     # Get the Picroft conf file
@@ -48,17 +48,17 @@ then
     sudo wget -N $REPO_PATH/etc/mycroft/mycroft.conf
 
     # Enable Autologin as the 'pi' user
-    echo "[Service]" | sudo tee -a /etc/systemd/system/getty@tty1.service.d/autologin.conf
-    echo "ExecStart=" | sudo tee -a /etc/systemd/system/getty@tty1.service.d/autologin.conf
-    echo "ExecStart=-/sbin/agetty --autologin pi --noclear %I 38400 linux" | sudo tee -a /etc/systemd/system/getty@tty1.service.d/autologin.conf
-    sudo systemctl enable getty@tty1.service
+#    echo "[Service]" | sudo tee -a /etc/systemd/system/getty@tty1.service.d/autologin.conf
+#    echo "ExecStart=" | sudo tee -a /etc/systemd/system/getty@tty1.service.d/autologin.conf
+#    echo "ExecStart=-/sbin/agetty --autologin pi --noclear %I 38400 linux" | sudo tee -a /etc/systemd/system/getty@tty1.service.d/autologin.conf
+#    sudo systemctl enable getty@tty1.service
 
     # Create RAM disk (the Picroft version of mycroft.conf point at it)
-    echo "tmpfs /ramdisk tmpfs rw,nodev,nosuid,size=20M 0 0" | sudo tee -a /etc/fstab
+#    echo "tmpfs /ramdisk tmpfs rw,nodev,nosuid,size=20M 0 0" | sudo tee -a /etc/fstab
 
     # Download and setup Mycroft-core
-    echo "Installing 'git'..."
-    sudo apt-get install git -y
+#    echo "Installing 'git'..."
+#    sudo apt-get install git -y
 
     echo "Downloading 'mycroft-core'..."
     cd ~
@@ -77,18 +77,18 @@ then
 
     echo
     echo "Retrieving default skills"
-    sudo mkdir /opt/mycroft
-    sudo chown pi:pi /opt/mycroft
+#    sudo mkdir /opt/mycroft
+#    sudo chown pi:pi /opt/mycroft
     ~/mycroft-core/bin/mycroft-msm default
 
-    wget -N $REPO_PATH/home/pi/audio_setup.sh
+#    wget -N $REPO_PATH/home/pi/audio_setup.sh
     wget -N $REPO_PATH/home/pi/custom_setup.sh
 fi
 
 # update software
 echo "Updating Picroft scripts"
 cd ~
-wget -N $REPO_PATH/home/pi/.bashrc
+# wget -N $REPO_PATH/home/pi/.bashrc
 wget -N $REPO_PATH/home/pi/auto_run.sh
 wget -N $REPO_PATH/home/pi/version
 
