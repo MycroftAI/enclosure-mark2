@@ -1,8 +1,8 @@
 #!/bin/bash
 ##########################################################################
-# auto_run.sh
+# auto_run.sh - Mark 2pi
 #
-# Copyright 2018 Mycroft AI Inc.
+# Copyright 2019 Mycroft AI Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -77,7 +77,7 @@ function network_setup() {
         fi
 
         # TODO: Options for WPA 2 Ent, etc?"
-        # See:  https://github.com/MycroftAI/enclosure-picroft/blob/master/setup_eap_wifi.sh
+        # See:  https://github.com/MycroftAI/enclosure-mark2/blob/master/setup_eap_wifi.sh
         # See also:  https://w1.fi/cgit/hostap/plain/wpa_supplicant/wpa_supplicant.conf
 
         read -N1 -s -t 1 pressed  # wait for keypress or one second timeout
@@ -284,6 +284,7 @@ function setup_wizard() {
             echo "$key - Seeed Mic Array v2.0"
 
             # TODO: Can look for 2886:0018 with lsusb to verify mic is plugged in.
+
 
             # Flash latest Seeed firmware
             echo "Downloading and flashing latest firmware from Seeed..."
@@ -532,7 +533,7 @@ function setup_wizard() {
 
 
     echo "Unlike standard Raspbian which has a user 'pi' with a password 'raspberry',"
-    echo "the Picroft image uses the following as default username and password:"
+    echo "the Mark 2 image uses the following as default username and password:"
     echo "  Default user:      pi"
     echo "  Default password:  mycroft"
     echo "As a network connected device, having a unique password significantly"
@@ -585,7 +586,7 @@ function setup_wizard() {
         echo "That's all, setup is complete!  Now we'll pull down the latest software"
         echo "updates and start Mycroft.  You'll be prompted to pair this device with"
         echo "an account at https://home.mycroft.ai, then you'll be set to enjoy your"
-        echo "Picroft!"
+        echo "Mark 2!"
         echo
         echo "To rerun this setup, type 'mycroft-setup-wizard' and reboot."
         echo
@@ -623,15 +624,11 @@ echo " ██╔████╔██║ ╚████╔╝ ██║     █
 echo " ██║╚██╔╝██║  ╚██╔╝  ██║     ██╔══██╗██║   ██║██╔══╝     ██║   "
 echo " ██║ ╚═╝ ██║   ██║   ╚██████╗██║  ██║╚██████╔╝██║        ██║   "
 echo " ╚═╝     ╚═╝   ╚═╝    ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝        ╚═╝   "
-echo
-echo "        _____    _                          __   _   "
-echo "       |  __ \  (_)                        / _| | |  "
-echo "       | |__) |  _    ___   _ __    ___   | |_  | |_ "
-echo "       |  ___/  | |  / __| | '__|  / _ \  |  _| | __|"
-echo "       | |      | | | (__  | |    | (_) | | |   | |_ "
-echo "       |_|      |_|  \___| |_|     \___/  |_|    \__|"
+echo ""
+echo " Mark II - Raspberry Pi version"
 echo -e "\e[0m"
 echo
+
 
 # Read the current mycroft-core version
 source mycroft-core/venv-activate.sh -q
@@ -639,7 +636,7 @@ mycroft_core_ver=$(python -c "import mycroft.version; print('mycroft-core: '+myc
 mycroft_core_branch=$(cd mycroft-core && git branch | grep -o "/* .*")
 
 echo "***********************************************************************"
-echo "** Picroft enclosure platform version:" $(<version)
+echo "** Mark 2.pi enclosure platform version:" $(<version)
 echo "**                       $mycroft_core_ver ( ${mycroft_core_branch/* /} )"
 echo "***********************************************************************"
 sleep 2  # give user a few moments to notice the version
@@ -650,7 +647,7 @@ alias mycroft-setup-wizard="cd ~ && touch first_run && source auto_run.sh"
 if [ -f ~/first_run ]
 then
     echo
-    echo "Welcome to Picroft.  This image is designed to make getting started with"
+    echo "Welcome to Mark 2.  This image is designed to make getting started with"
     echo "Mycroft quick and easy.  Would you like help setting up your system?"
     echo "  Y)es, I'd like the guided setup."
     echo "  N)ope, just get me a command line and get out of my way!"
@@ -762,13 +759,16 @@ if [ "$SSH_CLIENT" == "" ] && [ "$(/usr/bin/tty)" = "/dev/tty1" ];
 then
     # running at the local console (e.g. plugged into the HDMI output)
 
-    # Make sure the audio is being output reasonably.  This can be set
-    # to match user preference in audio_setup.sh.  DON'T EDIT HERE,
-    # the script will likely be overwritten during later updates.
-    #
-    # Default to analog audio jack at 75% volume
-    amixer cset numid=3 "1" > /dev/null
-    amixer set PCM 75% > /dev/null
+#    # Make sure the audio is being output reasonably.  This can be set
+#    # to match user preference in audio_setup.sh.  DON'T EDIT HERE,
+#    # the script will likely be overwritten during later updates.
+#    #
+#    # Default to analog audio jack at 75% volume
+#    amixer cset numid=3 "1" > /dev/null
+#    amixer set PCM 75% > /dev/null
+
+    # Set audio output volume to a reasonable level initially
+    sudo i2cset -y 1 0x4b 25
 
     # Check for custom audio setup
     if [ -f audio_setup.sh ]
@@ -777,13 +777,14 @@ then
         cd ~
     fi
 
-    # verify network settings
-    network_setup
-    if [[ $? -eq 1 ]]
-    then
-        echo "Rebooting..."
-        sudo reboot
-    fi
+    # SSP: Disabled text network setup -- skip to startup and wifi setup will be triggered
+#    # verify network settings
+#    network_setup
+#    if [[ $? -eq 1 ]]
+#    then
+#        echo "Rebooting..."
+#        sudo reboot
+#    fi
 
     # Check for custom Device setup
     if [ -f custom_setup.sh ]
@@ -795,9 +796,9 @@ then
     # Look for internet connection.
     if ping -q -c 1 -W 1 1.1.1.1 >/dev/null 2>&1
     then
-        echo "**** Checking for updates to Picroft environment"
+        echo "**** Checking for updates to Mark 2 environment"
         cd /tmp
-        wget -N -q https://raw.githubusercontent.com/MycroftAI/enclosure-picroft/stretch/home/pi/version >/dev/null
+        wget -N -q https://raw.githubusercontent.com/MycroftAI/enclosure-mark2/master/home/pi/version >/dev/null
         if [ $? -eq 0 ]
         then
             if [ ! -f ~/version ] ; then
@@ -808,14 +809,14 @@ then
             if  [ $? -eq 1 ]
             then
                 # Versions don't match...update needed
-                echo "**** Update found, downloadling new Picroft scripts!"
-                speak "Updating Picroft, please hold on."
+                echo "**** Update found, downloadling new Mark 2 scripts!"
+                speak "Updating Mark 2, please hold on."
 
                 # Stop interactive parts of mycroft, as we don't
                 # want the user interacting with it while updating.
                 sudo service mycroft-skills stop
 
-                wget -N -q https://raw.githubusercontent.com/MycroftAI/enclosure-picroft/stretch/home/pi/update.sh
+                wget -N -q https://raw.githubusercontent.com/MycroftAI/enclosure-mark2/master/home/pi/update.sh
                 if [ $? -eq 0 ]
                 then
                     source update.sh
@@ -839,7 +840,7 @@ then
     fi
 
     # Launch Mycroft Services ======================
-    source ~/mycroft-core/start-mycroft.sh all &
+    bash "$HOME/mycroft-core/start-mycroft.sh" all
 else
     # running in SSH session
     echo
@@ -847,14 +848,3 @@ fi
 
 echo
 mycroft-help
-
-echo
-echo "***********************************************************************"
-echo "In a few moments you will see the contents of the speech log.  Hit"
-echo "Ctrl+C to stop showing the log and return to the Linux command line."
-echo "Mycroft will continue running in the background for voice interaction."
-echo
-
-source ~/mycroft-core/start-mycroft.sh all &
-sleep 5  # for some reason this delay is needed for the mic to be detected
-"$HOME/mycroft-core/start-mycroft.sh" cli
