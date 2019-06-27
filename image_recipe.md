@@ -238,6 +238,18 @@ sudo apt-get remove mycroft-core
 sudo apt-get remove avrdude libftdi1
 sudo rm -rf /opt/venv
 
+## Force HDMI on 
+`sudo nano /boot/config.txt`
+Uncomment `hdmi_force_hotplug=1` and `hdmi_drive=2`
+
+# Force mode to HDMI 1024x768
+Uncomment/edit:
+```
+hdmi_group=2
+hdmi_mode=16
+```
+NOTE:  Leaving these alone will default to VGA when you connect the monitor after the fact, but it will also pick the highest supported mode automatically.  So this is a trade off.
+
 ## Disable the auto-update of Debian
 sudo nano /etc/cron.hourly/mycroft-core
    comment out "apt-get install..." for now
