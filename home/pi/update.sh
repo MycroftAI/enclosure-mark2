@@ -21,12 +21,12 @@
 # This script is executed by the auto_run.sh when a new version is found
 # at https://github.com/MycroftAI/enclosure-picroft/tree/stretch
 
-REPO_PATH="https://raw.githubusercontent.com/MycroftAI/enclosure-picroft/stretch"
+REPO_PATH="https://raw.githubusercontent.com/MycroftAI/enclosure-mark2/master"
 
-if [ ! -f $REPO_PATH/etc/mycroft/mycroft.conf ] ;
+if [ ! -f /home/pi/MARK-2_README ] ;
 then
-    # Assume this is a fresh install, setup the system
-    echo "Would you like to install Picroft on this machine?"
+    # Assume this is a fresh Mark 1 install, setup the system from there
+    echo "Would you like to install Mark 2.pi on this machine?"
     echo -n "Choice [Y/N]: "
     read -N1 -s key
     case $key in
@@ -38,37 +38,42 @@ then
         exit
         ;;
     esac
+    
+    # Setup HDMI output on by default
+    sudo echo "# Enable HDMI 1024x768 for debugging" > sudo tee -a /boot/config.txt    
+    sudo echo "hdmi_force_hotplug=1" > sudo tee -a /boot/config.txt
+    sudo echo "hdmi_drive=2" > sudo tee -a /boot/config.txt
+    sudo echo "hdmi_group=2" > sudo tee -a /boot/config.txt
+    sudo echo "hdmi_mode=16" > sudo tee -a /boot/config.txt
+
+    # Remove Debian package versions of Core and Mark 1 and Arduino bits
+    sudo apt-get remove mycroft-mark-1
+    sudo apt-get remove mycroft-core
+    sudo apt-get remove avrdude libftdi1
+    sudo rm -rf /opt/venv
+
+    # Install I2C support (might require raspi-config changes first)
+    sudo apt-get install i2c-tools
 
     # Create basic folder structures
-#    sudo mkdir /etc/mycroft/
     mkdir ~/bin
+    # Correct permissions from Mark 1 (which used the 'mycroft' user to run)
+    sudo chown -R pi:pi /var/log/mycroft
+    sudo chmod 666 /var/log/mycroft/*
 
     # Get the Picroft conf file
     cd /etc/mycroft
     sudo wget -N $REPO_PATH/etc/mycroft/mycroft.conf
 
-    # Enable Autologin as the 'pi' user
-#    echo "[Service]" | sudo tee -a /etc/systemd/system/getty@tty1.service.d/autologin.conf
-#    echo "ExecStart=" | sudo tee -a /etc/systemd/system/getty@tty1.service.d/autologin.conf
-#    echo "ExecStart=-/sbin/agetty --autologin pi --noclear %I 38400 linux" | sudo tee -a /etc/systemd/system/getty@tty1.service.d/autologin.conf
-#    sudo systemctl enable getty@tty1.service
-
-    # Create RAM disk (the Picroft version of mycroft.conf point at it)
-#    echo "tmpfs /ramdisk tmpfs rw,nodev,nosuid,size=20M 0 0" | sudo tee -a /etc/fstab
-
-    # Download and setup Mycroft-core
-#    echo "Installing 'git'..."
-#    sudo apt-get install git -y
-
     echo "Downloading 'mycroft-core'..."
     cd ~
     git clone https://github.com/MycroftAI/mycroft-core.git
     cd mycroft-core
-    # git checkout master
+    git checkout master
 
     echo
-    echo "Beginning building mycroft-core.  This'll take a bit,"
-    echo "take a break.  Results will be in the ~/build.log"
+    echo "Beginning building mycroft-core.  This'll take a bit.  Answer: Y Y N to questions"
+    echo "then take a break for an hour!  Results will be in the ~/build.log"
     bash dev_setup.sh -y 2>&1 | tee ../build.log
     echo "Build complete.  Press any key to review the output before it is deleted."
     read -N1 -s key
@@ -77,20 +82,17 @@ then
 
     echo
     echo "Retrieving default skills"
-#    sudo mkdir /opt/mycroft
-#    sudo chown pi:pi /opt/mycroft
+    sudo chown -R pi:pi /opt/mycroft
     ~/mycroft-core/bin/mycroft-msm default
-
-#    wget -N $REPO_PATH/home/pi/audio_setup.sh
-    wget -N $REPO_PATH/home/pi/custom_setup.sh
 fi
 
 # update software
-echo "Updating Picroft scripts"
+echo "Updating Mark 2.pi scripts"
 cd ~
-# wget -N $REPO_PATH/home/pi/.bashrc
+wget -N $REPO_PATH/home/pi/.bashrc
 wget -N $REPO_PATH/home/pi/auto_run.sh
 wget -N $REPO_PATH/home/pi/version
+wget -N $REPO_PATH/home/pi/MARK-2_README
 
 cd ~/bin
 wget -N $REPO_PATH/home/pi/bin/mycroft-wipe
