@@ -232,70 +232,22 @@ The spotify connect client can now be started from a skill by executing <code>li
 
 # Mark 2 Remix Recipe
 
-## Remove the Debian packages
-sudo apt-get remove mycroft-mark-1
-sudo apt-get remove mycroft-core
-sudo apt-get remove avrdude libftdi1
-sudo rm -rf /opt/venv
+On top of the Mark 1 image (Raspbian Jessie, etc):
 
-## Force HDMI on 
-`sudo nano /boot/config.txt`
-Uncomment `hdmi_force_hotplug=1` and `hdmi_drive=2`
+## Install I2C for the audio output
+sudo raspi-config, turn on i2c
 
-# Force mode to HDMI 1024x768
-Uncomment/edit:
+## Download and run update script
 ```
-hdmi_group=2
-hdmi_mode=16
+cd ~
+wget -N https://rawgit.com/MycroftAI/enclosure-mark2/master/home/pi/update.sh
+bash update.sh
 ```
-NOTE:  Leaving these alone will default to VGA when you connect the monitor after the fact, but it will also pick the highest supported mode automatically.  So this is a trade off.
 
 ## Disable the auto-update of Debian
 sudo nano /etc/cron.hourly/mycroft-core
    comment out "apt-get install..." for now
 _TODO: Replace with an hourly(?) update of the Picroft packages_
-
-## Install I2C for the audio output
-sudo raspi-config, turn on i2c
-sudo apt-get install i2c-tools
-
-## Install the mycroft-core code
-cd ~
-wget -N https://rawgit.com/MycroftAI/enclosure-picroft/stretch/home/pi/update.sh
-Edited update.sh as found on image...
-bash update.sh
-  Y
-  Y
-  N
-  
-## Setup the machine config
-`sudo nano /etc/mycroft/mycroft.conf`
-```
-{
-    "play_wav_cmdline": "aplay -Dplughw:ArrayUAC10,0 %1",
-    "play_mp3_cmdline": "mpg123 -d plughw:ArrayUAC10,0 %1",
-    "enclosure": {
-        "platform": "mycroft_mark_2pi",
-	"platform_build": 1
-    },
-    "ipc_path": "/ramdisk/mycroft/ipc/"
-}
-```
-
-sudo chown pi:pi /var/log/mycroft/*
-sudo chmod 666 /var/log/mycroft/*
-
-## Redub things to "Mark 2"
-Edited .bashrc
-  - Rename MARK1-README to MARK2-README
-Renamed and edited content of MARK2-README file
-
-
-Changed auto_run.sh
-   - Don't start CLI
-   - Use $HOME instead of ~
-   - The "start-mycroft.sh all" is double-run at the bottom of the script.
-   - Added i2c initial volume
    
 ## Temporary: Fix skills/__main__.py
 Disable the code that reinstalls the mycroft-core package.
