@@ -20,7 +20,7 @@ then
    exit 1
 fi
 
-echo "This will completely reset your Picroft.  Are you certain you want to do this?"
+echo "This will completely reset your Mark 2.  Are you certain you want to do this?"
 echo -n "Choice [y/N]:"
 
 read -N1 -s key
@@ -72,9 +72,10 @@ case $key in
       # Remove all log files
       rm -f /var/log/mycroft/*
 
-      # Reset to run setup next boot
-      touch ~/first_run
-      rm -f ~/.setup_choices
+      # SSP: Removing for Mark-2.pi
+      # # Reset to run setup next boot
+      # touch ~/first_run
+      # rm -f ~/.setup_choices
 
       # Reset bash history
       history -c
