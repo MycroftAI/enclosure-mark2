@@ -839,6 +839,11 @@ then
         cd ~
     fi
 
+    # Launch pulseaudio if needed
+    if ! pidof pulseaudio > /dev/null; then
+        pulseaudio -D
+        sleep 1
+    fi
     # Launch Mycroft Services ======================
     bash "$HOME/mycroft-core/start-mycroft.sh" all
 else
