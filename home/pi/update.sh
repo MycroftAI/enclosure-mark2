@@ -56,6 +56,13 @@ then
     sudo apt-get remove avrdude libftdi1
     sudo rm -rf /opt/venv
 
+    # Install plymouth
+    git clone https://github.com/forslund/mycroft-plymouth-theme
+    cd mycroft-plymouth-theme
+    ./install.sh
+    cd ..
+    sudo plymouth-set-default-theme mycroft-plymouth-theme
+
     # Install I2C support (might require raspi-config changes first)
     sudo apt-get install i2c-tools
 
