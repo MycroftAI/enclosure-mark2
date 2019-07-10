@@ -42,9 +42,9 @@ then
     # Setup HDMI output on by default
     sudo echo "# Enable HDMI 1024x768 for debugging" > sudo tee -a /boot/config.txt    
     sudo echo "hdmi_force_hotplug=1" > sudo tee -a /boot/config.txt
-    sudo echo "hdmi_drive=2" > sudo tee -a /boot/config.txt
-    sudo echo "hdmi_group=2" > sudo tee -a /boot/config.txt
-    sudo echo "hdmi_mode=16" > sudo tee -a /boot/config.txt
+    sudo echo "hdmi_drive=2" | sudo tee -a /boot/config.txt
+    sudo echo "hdmi_group=2" | sudo tee -a /boot/config.txt
+    sudo echo "hdmi_mode=16" | sudo tee -a /boot/config.txt
 
     # Remove Debian package versions of Core and Mark 1 and Arduino bits
     sudo apt-get remove mycroft-mark-1
