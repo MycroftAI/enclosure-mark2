@@ -42,15 +42,26 @@ then
     # Setup HDMI output on by default
     sudo echo "# Enable HDMI 1024x768 for debugging" > sudo tee -a /boot/config.txt    
     sudo echo "hdmi_force_hotplug=1" > sudo tee -a /boot/config.txt
-    sudo echo "hdmi_drive=2" > sudo tee -a /boot/config.txt
-    sudo echo "hdmi_group=2" > sudo tee -a /boot/config.txt
-    sudo echo "hdmi_mode=16" > sudo tee -a /boot/config.txt
+    sudo echo "hdmi_drive=2" | sudo tee -a /boot/config.txt
+    sudo echo "hdmi_group=2" | sudo tee -a /boot/config.txt
+    sudo echo "hdmi_mode=87" | sudo tee -a /boot/config.txt
+    sudo echo "hdmi_mode=87" | sudo tee -a /boot/config.txt
+    sudo echo "display_rotate=1" | sudo tee -a /boot/config.txt
+    sudo echo "hdmi_cvt 800 400 60 6 0 0 0" | sudo tee -a /boot/config.txt
+    sudo echo "dwc_otg.lpm_enable=0 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait consoleblank=0 quiet splash plymouth.ignore-serial-consoles" | sudo tee /boot/cmdline
 
     # Remove Debian package versions of Core and Mark 1 and Arduino bits
     sudo apt-get remove mycroft-mark-1
     sudo apt-get remove mycroft-core
     sudo apt-get remove avrdude libftdi1
     sudo rm -rf /opt/venv
+
+    # Install plymouth
+    git clone https://github.com/forslund/mycroft-plymouth-theme
+    cd mycroft-plymouth-theme
+    ./install.sh
+    cd ..
+    sudo plymouth-set-default-theme mycroft-plymouth-theme
 
     # Install I2C support (might require raspi-config changes first)
     sudo apt-get install i2c-tools

@@ -617,28 +617,11 @@ if ! ls /etc/ssh/ssh_host_* 1> /dev/null 2>&1; then
     sudo reboot
 fi
 
-echo -e "\e[36m"
-echo " ███╗   ███╗██╗   ██╗ ██████╗██████╗  ██████╗ ███████╗████████╗"
-echo " ████╗ ████║╚██╗ ██╔╝██╔════╝██╔══██╗██╔═══██╗██╔════╝╚══██╔══╝"
-echo " ██╔████╔██║ ╚████╔╝ ██║     ██████╔╝██║   ██║█████╗     ██║   "
-echo " ██║╚██╔╝██║  ╚██╔╝  ██║     ██╔══██╗██║   ██║██╔══╝     ██║   "
-echo " ██║ ╚═╝ ██║   ██║   ╚██████╗██║  ██║╚██████╔╝██║        ██║   "
-echo " ╚═╝     ╚═╝   ╚═╝    ╚═════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝        ╚═╝   "
-echo ""
-echo " Mark II - Raspberry Pi version"
-echo -e "\e[0m"
-echo
-
-
 # Read the current mycroft-core version
 source mycroft-core/venv-activate.sh -q
 mycroft_core_ver=$(python -c "import mycroft.version; print('mycroft-core: '+mycroft.version.CORE_VERSION_STR)" && echo "steve" | grep -o "mycroft-core:.*")
 mycroft_core_branch=$(cd mycroft-core && git branch | grep -o "/* .*")
 
-echo "***********************************************************************"
-echo "** Mark 2.pi enclosure platform version:" $(<version)
-echo "**                       $mycroft_core_ver ( ${mycroft_core_branch/* /} )"
-echo "***********************************************************************"
 sleep 2  # give user a few moments to notice the version
 
 
@@ -851,5 +834,4 @@ else
     echo
 fi
 
-echo
-mycroft-help
+cat mycroft.fb > /dev/fb0
