@@ -52,14 +52,6 @@ case $key in
          fi
       fi
 
-      # Blank-out audio settings
-      echo "#!/bin/bash" > ~/audio_setup.sh
-      echo "# Use this script to execute audio setup actions" >> ~/audio_setup.sh
-
-      # Blank-out custom scripts
-      echo "#!/bin/bash" > ~/custom_setup.sh
-      echo "# Use this script to execute custom actions on startup." >> ~/custom_setup.sh
-
       # Blank-out network settings
       echo "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev" | sudo tee /etc/wpa_supplicant/wpa_supplicant.conf > /dev/null
       echo "update_config=1" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf > /dev/null
@@ -72,18 +64,13 @@ case $key in
       # Remove all log files
       rm -f /var/log/mycroft/*
 
-      # SSP: Removing for Mark-2.pi
-      # # Reset to run setup next boot
-      # touch ~/first_run
-      # rm -f ~/.setup_choices
-
       # Reset bash history
       history -c
       history -w
 
       # Done
-      echo "Wipe is complete.  Shutting down in 5 seconds."
-      sleep 5
+      echo "Wipe is complete.  Shutting down..."
+      sleep 1
       sudo shutdown now
       ;;
 
