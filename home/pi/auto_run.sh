@@ -831,4 +831,6 @@ else
     echo
 fi
 
+sleep 2
+clear
 cat mycroft.fb > /dev/fb0
