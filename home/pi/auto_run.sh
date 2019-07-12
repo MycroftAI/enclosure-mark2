@@ -622,9 +622,6 @@ source mycroft-core/venv-activate.sh -q
 mycroft_core_ver=$(python -c "import mycroft.version; print('mycroft-core: '+mycroft.version.CORE_VERSION_STR)" && echo "steve" | grep -o "mycroft-core:.*")
 mycroft_core_branch=$(cd mycroft-core && git branch | grep -o "/* .*")
 
-sleep 2  # give user a few moments to notice the version
-
-
 alias mycroft-setup-wizard="cd ~ && touch first_run && source auto_run.sh"
 
 if [ -f ~/first_run ]
