@@ -825,7 +825,7 @@ then
         sleep 1
     fi
     # Launch Mycroft Services ======================
-    bash "$HOME/mycroft-core/start-mycroft.sh" all
+    bash "$HOME/mycroft-core/start-mycroft.sh" all > /dev/null 2>&1
 else
     # running in SSH session
     echo
