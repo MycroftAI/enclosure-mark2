@@ -20,11 +20,25 @@
 # This script is executed by the .bashrc every time someone logs in to the
 # system (including shelling in via SSH).
 
+function screen_logo() {
+    chvt 13  # switch to virtual terminal 13 (for luck!)
+    # Remove blinking cursor
+    sudo chown pi:tty /dev/tty13
+    sudo setterm --cursor off > /dev/tty13
+    # Draw background
+    cat mycroft.fb > /dev/fb0
+}
+
 export PATH="$HOME/bin:$HOME/mycroft-core/bin:$PATH"
+
 source mycroft-core/venv-activate.sh -q
+
 if [ "$SSH_CLIENT" == "" ] && [ "$(/usr/bin/tty)" = "/dev/tty1" ];
 then
     # running at the local console (e.g. plugged into the HDMI output)
+
+    # Clear screen and show logo
+    screen_logo
 
     # Set audio output volume to a reasonable level initially
     sudo i2cset -y 1 0x4b 25
@@ -41,7 +55,3 @@ else
     # running in SSH session
     echo
 fi
-
-sleep 2
-clear
-cat mycroft.fb > /dev/fb0
