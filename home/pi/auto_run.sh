@@ -28,6 +28,16 @@
 
 export PATH="$HOME/bin:$HOME/mycroft-core/bin:$PATH"
 
+
+function screen_logo() {
+    chvt 13  # switch to virtual terminal 13 (for luck!)
+    # Remove blinking cursor
+    sudo chown pi:tty /dev/tty13
+    sudo setterm --cursor off > /dev/tty13
+    # Draw background
+    cat mycroft.fb > /dev/fb0
+}
+
 # Read any saved setup choices
 if [ -f ~/.setup_choices ]
 then
@@ -746,6 +756,9 @@ then
 #    # Default to analog audio jack at 75% volume
 #    amixer cset numid=3 "1" > /dev/null
 #    amixer set PCM 75% > /dev/null
+
+    # Clear screen and show logo
+    screen_logo
 
     # Set audio output volume to a reasonable level initially
     sudo i2cset -y 1 0x4b 25
