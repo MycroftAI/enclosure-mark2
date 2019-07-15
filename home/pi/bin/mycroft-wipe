@@ -52,14 +52,6 @@ case $key in
          fi
       fi
 
-      # Blank-out audio settings
-      echo "#!/bin/bash" > ~/audio_setup.sh
-      echo "# Use this script to execute audio setup actions" >> ~/audio_setup.sh
-
-      # Blank-out custom scripts
-      echo "#!/bin/bash" > ~/custom_setup.sh
-      echo "# Use this script to execute custom actions on startup." >> ~/custom_setup.sh
-
       # Blank-out network settings
       echo "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev" | sudo tee /etc/wpa_supplicant/wpa_supplicant.conf > /dev/null
       echo "update_config=1" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf > /dev/null
@@ -69,21 +61,29 @@ case $key in
       # in the auto_run.sh script on first boot.
       sudo rm /etc/ssh/ssh_host_*
 
+      # this will regenerate new ssh keys on boot
+      # if keys don't exist. This is needed because
+      # ./bin/mycroft-wipe will delete old keys as
+      # a security measures
+      if ! ls /etc/ssh/ssh_host_* 1> /dev/null 2>&1; then
+         echo "Generating fresh ssh host keys"
+         sudo dpkg-reconfigure openssh-server
+         sudo systemctl restart ssh
+         echo "New ssh host keys were created. this requires a reboot"
+         sleep 2
+         sudo reboot
+      fi
+
       # Remove all log files
       rm -f /var/log/mycroft/*
-
-      # SSP: Removing for Mark-2.pi
-      # # Reset to run setup next boot
-      # touch ~/first_run
-      # rm -f ~/.setup_choices
 
       # Reset bash history
       history -c
       history -w
 
       # Done
-      echo "Wipe is complete.  Shutting down in 5 seconds."
-      sleep 5
+      echo "Wipe is complete.  Shutting down..."
+      sleep 1
       sudo shutdown now
       ;;
 
