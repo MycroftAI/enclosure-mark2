@@ -37,7 +37,6 @@ sudo echo "hdmi_force_hotplug=1" | sudo tee -a /boot/config.txt
 sudo echo "hdmi_drive=2" | sudo tee -a /boot/config.txt
 sudo echo "hdmi_group=2" | sudo tee -a /boot/config.txt
 sudo echo "hdmi_mode=87" | sudo tee -a /boot/config.txt
-sudo echo "hdmi_mode=87" | sudo tee -a /boot/config.txt
 sudo echo "display_rotate=1" | sudo tee -a /boot/config.txt
 sudo echo "hdmi_cvt 800 400 60 6 0 0 0" | sudo tee -a /boot/config.txt
 sudo echo "dwc_otg.lpm_enable=0 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait consoleblank=0 quiet splash plymouth.ignore-serial-consoles" | sudo tee /boot/cmdline
