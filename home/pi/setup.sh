@@ -62,7 +62,7 @@ echo "Downloading 'mycroft-core'..."
 cd ~
 git clone https://github.com/MycroftAI/mycroft-core.git
 cd mycroft-core
-git checkout master
+git checkout dev 
 
 echo
 echo "Beginning building mycroft-core.  This'll take a bit.  Answer: Y Y N to questions"
