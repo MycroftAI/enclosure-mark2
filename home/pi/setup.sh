@@ -22,10 +22,11 @@
 REPO_PATH="https://raw.githubusercontent.com/MycroftAI/enclosure-mark2/master"
 
 # Remove Debian package versions of Core and Mark 1 and Arduino bits
-sudo apt-get remove mycroft-mark-1
-sudo apt-get remove mycroft-core
-sudo apt-get remove avrdude libftdi1
+sudo apt-get remove -y mycroft-mark-1
+sudo apt-get remove -y mycroft-core
+sudo apt-get remove -y avrdude libftdi1
 sudo rm -rf /opt/venv
+sudo apt-get autoremove
 
 # Correct permissions from Mark 1 (which used the 'mycroft' user to run)
 sudo chown -R pi:pi /var/log/mycroft
