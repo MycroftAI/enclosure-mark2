@@ -67,7 +67,7 @@ git checkout dev
 echo
 echo "Beginning building mycroft-core.  This'll take a bit.  Answer: Y Y N to questions"
 echo "then take a break for an hour!  Results will be in the ~/build.log"
-bash dev_setup.sh -y 2>&1 | tee ../build.log
+IS_TRAVIS=true bash dev_setup.sh 2>&1 | tee ../build.log
 echo "Build complete.  Press any key to review the output before it is deleted."
 read -N1 -s key
 nano ../build.log
