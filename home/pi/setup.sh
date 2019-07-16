@@ -33,10 +33,8 @@ sudo apt-get install -y mycroft-wifi-setup
 # Correct permissions from Mark 1 (which used the 'mycroft' user to run)
 sudo chown -R pi:pi /var/log/mycroft
 rm /var/log/mycroft/*
-#sudo chmod 666 /var/log/mycroft/*
 sudo chown -R pi:pi /opt/mycroft
 rm -rf /tmp/*
-#sudo chown -R pi:pi /tmp/*
 
 # Display Setup
 sudo echo "# Mark 2 Pi Display Settings" | sudo tee -a /boot/config.txt    
