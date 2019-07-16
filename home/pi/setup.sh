@@ -88,6 +88,14 @@ IS_TRAVIS=true bash dev_setup.sh 2>&1 | tee ../build.log
 #rm ../build.log
 cd ~
 
+# Streaming STT
+pip install google-cloud-speech
+# Insert stt key, remove placeholder comment, format and write to file.
+sed '/# Google Service Key/r /boot/stt.json' /etc/mycroft/mycroft.conf \
+    | sed 's|# Google Service.*||' \
+    | python -m json.tool \
+    | sudo tee /etc/mycroft/mycroft.conf
+
 # skills
 ~/mycroft-core/bin/mycroft-msm default
 ~/mycroft-core/bin/mycroft-msm install skill-mark-2
