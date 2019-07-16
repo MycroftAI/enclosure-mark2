@@ -36,6 +36,9 @@ rm /var/log/mycroft/*
 sudo chown -R pi:pi /opt/mycroft
 rm -rf /tmp/*
 
+# Locale fix
+sudo sed -i.bak 's|AcceptEnv LANG LC_\*||' /etc/ssh/sshd_config
+
 # Display Setup
 sudo echo "# Mark 2 Pi Display Settings" | sudo tee -a /boot/config.txt    
 sudo echo "hdmi_force_hotplug=1" | sudo tee -a /boot/config.txt
