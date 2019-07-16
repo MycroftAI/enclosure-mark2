@@ -63,6 +63,7 @@ sudo plymouth-set-default-theme mycroft-plymouth-theme
 
 # Volume: Install I2C support (might require raspi-config changes first)
 sudo apt-get install -y i2c-tools
+sudo raspi-config nonint do_i2c 0
 
 # Get the Picroft conf file
 cd /etc/mycroft
