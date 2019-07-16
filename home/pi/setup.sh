@@ -39,7 +39,12 @@ sudo echo "hdmi_group=2" | sudo tee -a /boot/config.txt
 sudo echo "hdmi_mode=87" | sudo tee -a /boot/config.txt
 sudo echo "display_rotate=1" | sudo tee -a /boot/config.txt
 sudo echo "hdmi_cvt 800 400 60 6 0 0 0" | sudo tee -a /boot/config.txt
-sudo echo "dwc_otg.lpm_enable=0 console=tty2 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait consoleblank=0 quiet splash plymouth.ignore-serial-consoles" | sudo tee /boot/cmdline
+
+# Removing boot up text printed to tty1 console
+sudo echo "dwc_otg.lpm_enable=0 console=tty2 logo.nologo root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline fsck.repair=yes rootwait consoleblank=0 quiet splash plymouth.ignore-serial-consoles vt.global_cursor_default=0" | sudo tee /boot/cmdline
+sudo sed -i.bak -e 's|ExecStart.*|ExecStart=-/sbin/agetty --skip-login --noclear --noissue --login-options "-f pi" %I $TERM|' /etc/systemd/system/autologin@.service
+sudo sed -i.bak -e 's| /bin/uname -snrvm||' /etc/pam.d/login
+touch ~/.hushlogin
 
 # GUI: Install plymouth
 git clone https://github.com/forslund/mycroft-plymouth-theme
