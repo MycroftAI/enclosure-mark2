@@ -39,7 +39,6 @@ timedatectl set-ntp true
 
 ## Edit boot configuration settings
 sed -i.bak s'|dtparam=i2c.*|dtparam=i2c_arm=on|' /boot/config.txt
-sed -i.bak s'|dtparam=i2s.*|dtparam=i2s=on|' /boot/config.txt
 sed -i.bak s'|dtparam=spi.*|dtparam=spi=on|' /boot/config.txt
 sed -i.bak s'|dtparam=audio.*|#dtparam=audio=on|' /boot/config.txt
 echo "dtoverlay=pi3-disable-bt" > /boot/config.txt
