@@ -28,6 +28,10 @@ sudo apt-get remove -y mycroft-mark-1
 sudo apt-get remove -y mycroft-core
 sudo rm -rf /opt/venvs
 
+# Update mycroft-wifi-setup so update does not reinstall mycroft-core package
+sudo apt-get update -y
+sudo apt-get install -y mycroft-wifi-setup
+
 # Correct permissions from Mark 1 (which used the 'mycroft' user to run)
 sudo chown -R pi:pi /var/log/mycroft
 rm /var/log/mycroft/*
