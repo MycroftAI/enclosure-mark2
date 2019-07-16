@@ -86,3 +86,8 @@ sudo chown -R pi:pi /opt/mycroft
 
 cd ~
 bash ./update.sh
+
+# Development
+sudo touch /boot/ssh
+
+sudo reboot
