@@ -91,13 +91,12 @@ cd ~
 ~/mycroft-core/bin/mycroft-msm default
 ~/mycroft-core/bin/mycroft-msm install skill-mark-2
 cd /opt/mycroft/skills/mycroft-spotify.forslund/ && git pull && cd ~
-# Clean apt cache
 sudo apt-get autoremove -y
 sudo rm -rf /var/lib/apt/lists/*
 rm -rf ~/.cache/*
 
 # Development
-sudo touch /boot/ssh
+sudo raspi-config nonint do_ssh 0
 sudo apt-get install -y tmux
 
 sudo reboot
