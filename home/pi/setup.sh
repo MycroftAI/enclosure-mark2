@@ -63,6 +63,13 @@ mkdir ~/bin
 # Get the Picroft conf file
 cd /etc/mycroft
 sudo wget -N $REPO_PATH/etc/mycroft/mycroft.conf
+cd ~
+wget -N $REPO_PATH/home/pi/.bashrc
+wget -N $REPO_PATH/home/pi/auto_run.sh
+cd ~/bin
+wget -N $REPO_PATH/home/pi/bin/mycroft-wipe
+chmod +x mycroft-wipe
+
 
 echo "Downloading 'mycroft-core'..."
 cd ~
