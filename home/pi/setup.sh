@@ -92,5 +92,6 @@ sudo apt-get autoremove
 
 # Development
 sudo touch /boot/ssh
+sudo apt-get install -y tmux
 
 sudo reboot
