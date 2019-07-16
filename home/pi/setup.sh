@@ -73,7 +73,7 @@ cd ~
 wget -N $REPO_PATH/home/pi/.bashrc
 wget -N $REPO_PATH/home/pi/auto_run.sh
 
-mkdir ~/bin
+mkdir -p ~/bin
 cd ~/bin
 wget -N $REPO_PATH/home/pi/bin/mycroft-wipe
 chmod +x mycroft-wipe
