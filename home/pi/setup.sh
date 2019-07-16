@@ -80,13 +80,10 @@ IS_TRAVIS=true bash dev_setup.sh 2>&1 | tee ../build.log
 # Keep for now.
 #rm ../build.log
 
-echo
-echo "Retrieving default skills"
-sudo chown -R pi:pi /opt/mycroft
+# skills
 ~/mycroft-core/bin/mycroft-msm default
 
-cd ~
-bash ./update.sh
+# Clean apt cache
 sudo apt-get autoremove
 
 # Development
