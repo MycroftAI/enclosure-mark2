@@ -25,7 +25,6 @@ REPO_PATH="https://raw.githubusercontent.com/MycroftAI/enclosure-mark2/master"
 sudo rm /etc/cron.hourly/mycroft-core
 sudo apt-get remove -y mycroft-mark-1
 sudo apt-get remove -y mycroft-core
-sudo apt-get autoremove
 sudo rm -rf /opt/venvs
 
 # Correct permissions from Mark 1 (which used the 'mycroft' user to run)
@@ -93,6 +92,7 @@ sudo chown -R pi:pi /opt/mycroft
 
 cd ~
 bash ./update.sh
+sudo apt-get autoremove
 
 # Development
 sudo touch /boot/ssh
