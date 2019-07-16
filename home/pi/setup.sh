@@ -24,9 +24,7 @@ REPO_PATH="https://raw.githubusercontent.com/MycroftAI/enclosure-mark2/master"
 # Remove Debian package versions of Core and Mark 1 and Arduino bits
 sudo kill $(pgrep mycroft)
 sudo rm /etc/cron.hourly/mycroft-core
-sudo apt-get remove -y mycroft-mark-1
-sudo apt-get remove -y mycroft-core
-sudo rm -rf /opt/venvs
+sudo apt-get purge -y mycroft-core
 
 # Update mycroft-wifi-setup so update does not reinstall mycroft-core package
 sudo apt-get update -y
@@ -90,7 +88,7 @@ cd ~
 # skills
 ~/mycroft-core/bin/mycroft-msm default
 ~/mycroft-core/bin/mycroft-msm install skill-mark-2
-
+cd /opt/mycroft/skills/mycroft-spotify.forslund/ && git pull && cd ~
 # Clean apt cache
 sudo apt-get autoremove -y
 
