@@ -92,7 +92,7 @@ IS_TRAVIS=true bash dev_setup.sh 2>&1 | tee ../build.log
 ~/mycroft-core/bin/mycroft-msm install skill-mark-2
 
 # Clean apt cache
-sudo apt-get autoremove
+sudo apt-get autoremove -y
 
 # Development
 sudo touch /boot/ssh
