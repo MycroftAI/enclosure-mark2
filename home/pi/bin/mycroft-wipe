@@ -59,12 +59,8 @@ case $key in
 
       # regenerate ssh key
       sudo rm /etc/ssh/ssh_host_*
-      echo "Generating fresh ssh host keys"
       sudo dpkg-reconfigure openssh-server
       sudo systemctl restart ssh
-      echo "New ssh host keys were created. this requires a reboot"
-      sleep 2
-      sudo reboot
 
       # Remove all log files
       rm -f /var/log/mycroft/*
