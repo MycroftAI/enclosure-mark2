@@ -25,8 +25,9 @@ REPO_PATH="https://raw.githubusercontent.com/MycroftAI/enclosure-mark2/master"
 sudo apt-get remove -y mycroft-mark-1
 sudo apt-get remove -y mycroft-core
 sudo apt-get remove -y avrdude libftdi1
-sudo rm -rf /opt/venv
-sudo apt-get autoremove
+sudo rm -rf /opt/venvs
+# Revisit...
+#sudo apt-get autoremove
 
 # Correct permissions from Mark 1 (which used the 'mycroft' user to run)
 sudo chown -R pi:pi /var/log/mycroft
