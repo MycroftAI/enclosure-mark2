@@ -100,12 +100,10 @@ sed '/# Google Service Key/r /boot/stt.json' /etc/mycroft/mycroft.conf \
 ~/mycroft-core/bin/mycroft-msm default
 ~/mycroft-core/bin/mycroft-msm install skill-mark-2
 cd /opt/mycroft/skills/mycroft-spotify.forslund/ && git pull && cd ~
-sudo apt-get autoremove -y
-sudo rm -rf /var/lib/apt/lists/*
-rm -rf ~/.cache/*
 
 # Development
 sudo raspi-config nonint do_ssh 0
 sudo apt-get install -y tmux
-
-sudo reboot
+sudo apt-get autoremove -y
+sudo rm -rf /var/lib/apt/lists/*
+rm -rf ~/.cache/*
