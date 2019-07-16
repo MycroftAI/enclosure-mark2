@@ -56,36 +56,29 @@ cd ..
 sudo plymouth-set-default-theme mycroft-plymouth-theme
 
 # Volume: Install I2C support (might require raspi-config changes first)
-sudo apt-get install i2c-tools
-
-# Create basic folder structures
-mkdir ~/bin
+sudo apt-get install -y i2c-tools
 
 # Get the Picroft conf file
 cd /etc/mycroft
 sudo wget -N $REPO_PATH/etc/mycroft/mycroft.conf
+
 cd ~
 wget -N $REPO_PATH/home/pi/.bashrc
 wget -N $REPO_PATH/home/pi/auto_run.sh
+
+mkdir ~/bin
 cd ~/bin
 wget -N $REPO_PATH/home/pi/bin/mycroft-wipe
 chmod +x mycroft-wipe
 
-
-echo "Downloading 'mycroft-core'..."
+# mycroft-core
 cd ~
 git clone https://github.com/MycroftAI/mycroft-core.git
 cd mycroft-core
-git checkout dev 
 
-echo
-echo "Beginning building mycroft-core.  This'll take a bit.  Answer: Y Y N to questions"
-echo "then take a break for an hour!  Results will be in the ~/build.log"
 IS_TRAVIS=true bash dev_setup.sh 2>&1 | tee ../build.log
-echo "Build complete.  Press any key to review the output before it is deleted."
-read -N1 -s key
-nano ../build.log
-rm ../build.log
+# Keep for now.
+#rm ../build.log
 
 echo
 echo "Retrieving default skills"
