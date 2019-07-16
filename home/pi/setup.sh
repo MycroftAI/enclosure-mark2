@@ -91,6 +91,8 @@ cd ~
 cd /opt/mycroft/skills/mycroft-spotify.forslund/ && git pull && cd ~
 # Clean apt cache
 sudo apt-get autoremove -y
+sudo rm -rf /var/lib/apt/lists/*
+rm -rf ~/.cache/*
 
 # Development
 sudo touch /boot/ssh
