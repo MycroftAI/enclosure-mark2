@@ -51,7 +51,7 @@ touch ~/.hushlogin
 # GUI: Install plymouth
 git clone https://github.com/forslund/mycroft-plymouth-theme
 cd mycroft-plymouth-theme
-./install.sh
+echo -n "Press any key? Okay!" | ./install.sh
 cd ..
 sudo plymouth-set-default-theme mycroft-plymouth-theme
 
