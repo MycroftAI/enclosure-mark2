@@ -59,7 +59,7 @@ touch ~/.hushlogin
 git clone https://github.com/forslund/mycroft-plymouth-theme
 cd mycroft-plymouth-theme
 echo -n "Press any key? Okay!" | ./install.sh
-cd ..
+cd ~
 sudo plymouth-set-default-theme mycroft-plymouth-theme
 
 # Volume: Install I2C support (might require raspi-config changes first)
@@ -68,8 +68,8 @@ sudo apt-get install -y i2c-tools
 # Get the Picroft conf file
 cd /etc/mycroft
 sudo wget -N $REPO_PATH/etc/mycroft/mycroft.conf
-
 cd ~
+
 wget -N $REPO_PATH/home/pi/.bashrc
 wget -N $REPO_PATH/home/pi/auto_run.sh
 
@@ -77,15 +77,15 @@ mkdir -p ~/bin
 cd ~/bin
 wget -N $REPO_PATH/home/pi/bin/mycroft-wipe
 chmod +x mycroft-wipe
+cd ~
 
 # mycroft-core
-cd ~
 git clone https://github.com/MycroftAI/mycroft-core.git
 cd mycroft-core
-
 IS_TRAVIS=true bash dev_setup.sh 2>&1 | tee ../build.log
 # Keep for now.
 #rm ../build.log
+cd ~
 
 # skills
 ~/mycroft-core/bin/mycroft-msm default
