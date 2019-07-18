@@ -25,6 +25,7 @@ REPO_PATH="https://raw.githubusercontent.com/MycroftAI/enclosure-mark2/master"
 sudo kill -9 $(pgrep mycroft)
 sudo rm /etc/cron.hourly/mycroft-core
 sudo apt-get purge -y mycroft-core
+sudo rm -rf /opt/venvs/mycroft-core/
 
 # Update mycroft-wifi-setup so update does not reinstall mycroft-core package
 sudo apt-get update -y
