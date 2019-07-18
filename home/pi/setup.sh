@@ -67,12 +67,12 @@ sudo raspi-config nonint do_i2c 0
 
 # Get the Picroft conf file
 cd /etc/mycroft
-sudo wget -N $REPO_PATH/etc/mycroft/mycroft.conf
+sudo wget $REPO_PATH/etc/mycroft/mycroft.conf
 cd ~
 
-wget -N $REPO_PATH/home/pi/.bashrc
-wget -N $REPO_PATH/home/pi/auto_run.sh
-wget -N $REPO_PATH/home/pi/mycroft.fb
+wget $REPO_PATH/home/pi/.bashrc
+wget $REPO_PATH/home/pi/auto_run.sh
+wget $REPO_PATH/home/pi/mycroft.fb
 
 mkdir -p ~/bin
 cd ~/bin
