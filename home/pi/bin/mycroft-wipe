@@ -32,7 +32,7 @@ case $key in
       echo "wiping system..."
 
       # Shutdown services
-      mycroft-stop all
+      ~/mycroft-core/stop-mycroft.sh all
 
       if [ -d ~/.mycroft ]
       then
