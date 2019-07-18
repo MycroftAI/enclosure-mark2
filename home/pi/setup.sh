@@ -35,7 +35,9 @@ sudo apt-get install -y mycroft-wifi-setup
 sudo chown -R pi:pi /var/log/mycroft
 rm /var/log/mycroft/*
 sudo chown -R pi:pi /opt/mycroft
-rm -rf /tmp/*
+sudo rm -rf /tmp/*
+sudo rm -rf /tmp/.skills-repo/
+rm -rf /opt/mycroft/skills/*
 
 # Locale fix
 sudo sed -i.bak 's|AcceptEnv LANG LC_\*||' /etc/ssh/sshd_config
