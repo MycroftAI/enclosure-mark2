@@ -32,47 +32,29 @@ case $key in
       echo "wiping system..."
 
       # Shutdown services
-      mycroft-stop all
+      ~/mycroft-core/stop-mycroft.sh all
+
+      # Install default skills
+      rm -Rf /opt/mycroft/skills/*
+      ~/mycroft-core/bin/mycroft-msm default
+      ~/mycroft-core/bin/mycroft-msm install https://github.com/MycroftAI/skill-mark-2-pi.git
+      cd /opt/mycroft/skills/mycroft-spotify.forslund/ && git pull && cd ~
 
       if [ -d ~/.mycroft ]
       then
          # Remove all Mycroft user settings
          rm -Rf ~/.mycroft
-
-         if [ "$1" != "--keep-skills" ] ; then
-            # Remove all custom skills/settings (except very basics)
-            echo "Clearing out skills..."
-            mv /opt/mycroft/skills/mycroft-pairing.mycroftai /opt/mycroft
-            mv /opt/mycroft/skills/mycroft-installer.mycroftai /opt/mycroft
-            mv /opt/mycroft/skills/mycroft-configuration.mycroftai /opt/mycroft
-            rm -Rf /opt/mycroft/skills/*
-            mv /opt/mycroft/mycroft-pairing.mycroftai /opt/mycroft/skills
-            mv /opt/mycroft/mycroft-installer.mycroftai /opt/mycroft/skills
-            mv /opt/mycroft/mycroft-configuration.mycroftai /opt/mycroft/skills
-         fi
       fi
 
       # Blank-out network settings
-      echo "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev" | sudo tee /etc/wpa_supplicant/wpa_supplicant.conf > /dev/null
-      echo "update_config=1" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf > /dev/null
-      echo "country=US" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf > /dev/null
+      cd /etc/wpa_supplicant
+      sudo wget -N $REPO_PATH/etc/wpa_supplicant/wpa_supplicant.conf
+      cd ~
 
-      # wipe ssh keys. A new one will be regenerated
-      # in the auto_run.sh script on first boot.
+      # regenerate ssh key
       sudo rm /etc/ssh/ssh_host_*
-
-      # this will regenerate new ssh keys on boot
-      # if keys don't exist. This is needed because
-      # ./bin/mycroft-wipe will delete old keys as
-      # a security measures
-      if ! ls /etc/ssh/ssh_host_* 1> /dev/null 2>&1; then
-         echo "Generating fresh ssh host keys"
-         sudo dpkg-reconfigure openssh-server
-         sudo systemctl restart ssh
-         echo "New ssh host keys were created. this requires a reboot"
-         sleep 2
-         sudo reboot
-      fi
+      sudo dpkg-reconfigure openssh-server
+      sudo systemctl restart ssh
 
       # Remove all log files
       rm -f /var/log/mycroft/*
