@@ -22,7 +22,7 @@
 REPO_PATH="https://raw.githubusercontent.com/MycroftAI/enclosure-mark2/master"
 
 # Remove Debian package versions of Core and Mark 1 and Arduino bits
-sudo kill $(pgrep mycroft)
+sudo kill -9 $(pgrep mycroft)
 sudo rm /etc/cron.hourly/mycroft-core
 sudo apt-get purge -y mycroft-core
 
