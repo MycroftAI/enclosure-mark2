@@ -100,7 +100,7 @@ sed '/# Google Service Key/r /boot/stt.json' /etc/mycroft/mycroft.conf \
 
 # skills
 ~/mycroft-core/bin/mycroft-msm default
-~/mycroft-core/bin/mycroft-msm install skill-mark-2
+~/mycroft-core/bin/mycroft-msm install https://github.com/MycroftAI/skill-mark-2-pi.git
 cd /opt/mycroft/skills/mycroft-spotify.forslund/ && git pull && cd ~
 
 # Development
