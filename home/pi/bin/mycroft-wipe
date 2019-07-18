@@ -34,28 +34,22 @@ case $key in
       # Shutdown services
       ~/mycroft-core/stop-mycroft.sh all
 
+      # Install default skills
+      rm -Rf /opt/mycroft/skills/*
+      ~/mycroft-core/bin/mycroft-msm default
+      ~/mycroft-core/bin/mycroft-msm install https://github.com/MycroftAI/skill-mark-2-pi.git
+      cd /opt/mycroft/skills/mycroft-spotify.forslund/ && git pull && cd ~
+
       if [ -d ~/.mycroft ]
       then
          # Remove all Mycroft user settings
          rm -Rf ~/.mycroft
-
-         if [ "$1" != "--keep-skills" ] ; then
-            # Remove all custom skills/settings (except very basics)
-            echo "Clearing out skills..."
-            mv /opt/mycroft/skills/mycroft-pairing.mycroftai /opt/mycroft
-            mv /opt/mycroft/skills/mycroft-installer.mycroftai /opt/mycroft
-            mv /opt/mycroft/skills/mycroft-configuration.mycroftai /opt/mycroft
-            rm -Rf /opt/mycroft/skills/*
-            mv /opt/mycroft/mycroft-pairing.mycroftai /opt/mycroft/skills
-            mv /opt/mycroft/mycroft-installer.mycroftai /opt/mycroft/skills
-            mv /opt/mycroft/mycroft-configuration.mycroftai /opt/mycroft/skills
-         fi
       fi
 
       # Blank-out network settings
-      echo "ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev" | sudo tee /etc/wpa_supplicant/wpa_supplicant.conf > /dev/null
-      echo "update_config=1" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf > /dev/null
-      echo "country=US" | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf > /dev/null
+      cd /etc/wpa_supplicant
+      sudo wget -N $REPO_PATH/etc/wpa_supplicant/wpa_supplicant.conf
+      cd ~
 
       # regenerate ssh key
       sudo rm /etc/ssh/ssh_host_*
