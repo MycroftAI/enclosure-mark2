@@ -71,13 +71,13 @@ cd /etc/mycroft
 sudo wget $REPO_PATH/etc/mycroft/mycroft.conf
 cd ~
 
-wget $REPO_PATH/home/pi/.bashrc
-wget $REPO_PATH/home/pi/auto_run.sh
-wget $REPO_PATH/home/pi/mycroft.fb
+wget -N $REPO_PATH/home/pi/.bashrc
+wget -N $REPO_PATH/home/pi/auto_run.sh
+wget -N $REPO_PATH/home/pi/mycroft.fb
 
 mkdir -p ~/bin
 cd ~/bin
-wget $REPO_PATH/home/pi/bin/mycroft-wipe
+wget -N $REPO_PATH/home/pi/bin/mycroft-wipe
 chmod +x mycroft-wipe
 cd ~
 
