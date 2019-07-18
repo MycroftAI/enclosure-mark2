@@ -76,7 +76,7 @@ wget $REPO_PATH/home/pi/mycroft.fb
 
 mkdir -p ~/bin
 cd ~/bin
-wget -N $REPO_PATH/home/pi/bin/mycroft-wipe
+wget $REPO_PATH/home/pi/bin/mycroft-wipe
 chmod +x mycroft-wipe
 cd ~
 
