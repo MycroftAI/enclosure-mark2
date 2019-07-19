@@ -22,7 +22,7 @@
 REPO_PATH="https://raw.githubusercontent.com/MycroftAI/enclosure-mark2/master"
 
 # Remove Debian package versions of Core and Mark 1 and Arduino bits
-sudo kill -9 $(pgrep mycroft)
+sudo systemctl stop mycroft*
 sudo rm /etc/cron.hourly/mycroft-core
 sudo apt-get purge -y mycroft-core
 sudo rm -rf /opt/venvs/mycroft-core/
@@ -70,7 +70,7 @@ sudo raspi-config nonint do_i2c 0
 
 # Get the Picroft conf file
 cd /etc/mycroft
-sudo wget $REPO_PATH/etc/mycroft/mycroft.conf
+sudo wget -N $REPO_PATH/etc/mycroft/mycroft.conf
 cd ~
 
 wget -N $REPO_PATH/home/pi/.bashrc
