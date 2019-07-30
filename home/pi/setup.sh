@@ -17,19 +17,11 @@
 ##########################################################################
 # setup.sh
 ##########################################################################
-# This script sets up a Mark 2 Pi based off of a Mark 1 image
+# This script sets up a Mark 2 Pi based off of the Mark II Pi base image.
 
 REPO_PATH="https://raw.githubusercontent.com/MycroftAI/enclosure-mark2/master"
 
-# Remove Debian package versions of Core and Mark 1 and Arduino bits
-sudo systemctl stop mycroft*
-sudo rm /etc/cron.hourly/mycroft-core
-sudo apt-get purge -y mycroft-core
-sudo rm -rf /opt/venvs/mycroft-core/
 
-# Update mycroft-wifi-setup so update does not reinstall mycroft-core package
-sudo apt-get update -y
-sudo apt-get install -y mycroft-wifi-setup
 
 # Correct permissions from Mark 1 (which used the 'mycroft' user to run)
 sudo chown -R pi:pi /var/log/mycroft
@@ -83,14 +75,6 @@ wget -N $REPO_PATH/home/pi/bin/mycroft-wipe
 chmod +x mycroft-wipe
 cd ~
 
-# mycroft-core
-git clone https://github.com/MycroftAI/mycroft-core.git
-cd mycroft-core
-IS_TRAVIS=true bash dev_setup.sh 2>&1 | tee ../build.log
-# Keep for now.
-#rm ../build.log
-cd ~
-
 # Streaming STT
 source /home/pi/mycroft-core/.venv/bin/activate
 pip install google-cloud-speech
@@ -109,5 +93,7 @@ cd /opt/mycroft/skills/mycroft-spotify.forslund/ && git pull && cd ~
 sudo raspi-config nonint do_ssh 0
 sudo apt-get install -y tmux
 sudo apt-get autoremove -y
+
+# Size Reduction
 sudo rm -rf /var/lib/apt/lists/*
 rm -rf ~/.cache/*
