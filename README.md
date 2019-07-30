@@ -2,16 +2,27 @@
 
 This repository holds the files, documentation and scripts for building Mark 2 Pi device images.
 
-## Mark II Pi Setup
+## Mark II Pi Base Image Setup
 1. Burn latest Mark I prod image to SD Card.
 
 2. Boot up Mark II device and setup Wi-Fi connection
 
-3. `./setup.sh 2>&1 | tee setup.log` (takes ~30min)
+3. `./base_setup.sh 2>&1 | tee base_setup.log` (takes ~30min)
 
-3. Pair the device and test the build
+4. Remove Wi-Fi network from wpa_supplicant 
 
-4. `source bin/mycroft-wipe`
+## Mark II Pi Setup
+1. Burn latest Mark II base image to SD Card.
+
+2. Boot up Mark II device and setup Wi-Fi connection
+
+3. `./setup.sh 2>&1 | tee setup.log`
+
+4. Remove Wi-Fi network from wpa_supplicant
+
+5. rm ~/.mycroft/identity/identity2.json
+
+6. rm /var/log/mycroft/* 
 
 ## Creating Image
 
@@ -19,6 +30,7 @@ This repository holds the files, documentation and scripts for building Mark 2 P
 ```
 LINUX (/dev/sdX)
 sudo dd if=/dev/sdc of=mark2pi-20190718-raw.img bs=20M
+
 OSX (/dev/rdiskX)
 sudo dd if=/dev/rdisk2 of=mark2pi-20190718-raw.img bs=20m
 ```
@@ -49,7 +61,10 @@ zip mark2pi-20190718.zip mark2pi-20190718-shrink.img
 Documentation on going from Mark 1 to Mark 2 Pi.
 
 **setup.sh**
-Script to set up Mark 2 Pi off of Mark I image.
+Script to set up Mark 2 Pi base image off of Mark I image. GitHub install.
+
+**setup.sh**
+Script to set up Mark 2 Pi off of Mark II base image.
 
 **.bashrc**
     Runs auto_run.sh on startup. Bash config.
