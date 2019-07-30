@@ -21,6 +21,11 @@
 
 REPO_PATH="https://raw.githubusercontent.com/MycroftAI/enclosure-mark2/master"
 
+# Update mycroft-core 
+cd mycroft-core
+IS_TRAVIS=true bash dev_setup.sh 2>&1 | tee ../dev_setup.log
+cd ~
+
 # Correct permissions from Mark 1 (which used the 'mycroft' user to run)
 sudo chown -R pi:pi /var/log/mycroft
 rm /var/log/mycroft/*
