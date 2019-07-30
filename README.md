@@ -5,24 +5,30 @@ This repository holds the files, documentation and scripts for building Mark 2 P
 ## Mark II Pi Base Image Setup
 1. Burn latest Mark I prod image to SD Card.
 
-2. Boot up Mark II device and setup Wi-Fi connection
+2. Move base_setup.sh to /boot partition of card
 
-3. `./base_setup.sh 2>&1 | tee base_setup.log` (takes ~30min)
+3. Boot up Mark II device and setup Wi-Fi connection
 
-4. Remove Wi-Fi network from wpa_supplicant 
+4. `./base_setup.sh 2>&1 | tee base_setup.log` (takes ~30min)
+
+5. Remove Wi-Fi network from wpa_supplicant 
 
 ## Mark II Pi Setup
 1. Burn latest Mark II base image to SD Card.
 
-2. Boot up Mark II device and setup Wi-Fi connection
+2. Move setup.sh to /boot partition of card
 
-3. `./setup.sh 2>&1 | tee setup.log`
+3. Move Google Streaming STT service account key to /boot partition of card as stt.txt
 
-4. Remove Wi-Fi network from wpa_supplicant
+4. Boot up Mark II device and setup Wi-Fi connection
 
-5. rm ~/.mycroft/identity/identity2.json
+5. `./setup.sh 2>&1 | tee setup.log`
 
-6. rm /var/log/mycroft/* 
+6. Remove Wi-Fi network from wpa_supplicant
+
+7. rm ~/.mycroft/identity/identity2.json
+
+8. rm /var/log/mycroft/* 
 
 ## Creating Image
 
