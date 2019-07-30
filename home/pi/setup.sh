@@ -23,6 +23,7 @@ REPO_PATH="https://raw.githubusercontent.com/MycroftAI/enclosure-mark2/master"
 
 # Update mycroft-core 
 cd mycroft-core
+git pull
 IS_TRAVIS=true bash dev_setup.sh 2>&1 | tee ../dev_setup.log
 cd ~
 
