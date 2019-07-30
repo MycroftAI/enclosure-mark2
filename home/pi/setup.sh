@@ -21,8 +21,6 @@
 
 REPO_PATH="https://raw.githubusercontent.com/MycroftAI/enclosure-mark2/master"
 
-
-
 # Correct permissions from Mark 1 (which used the 'mycroft' user to run)
 sudo chown -R pi:pi /var/log/mycroft
 rm /var/log/mycroft/*
@@ -85,7 +83,7 @@ sed '/# Google Service Key/r /boot/stt.json' /etc/mycroft/mycroft.conf \
     | sudo tee /etc/mycroft/mycroft.conf
 
 # skills
-~/mycroft-core/bin/mycroft-msm default
+~/mycroft-core/bin/mycroft-msm -p mycroft_mark_2pi default
 ~/mycroft-core/bin/mycroft-msm install https://github.com/MycroftAI/skill-mark-2-pi.git
 cd /opt/mycroft/skills/mycroft-spotify.forslund/ && git pull && cd ~
 
@@ -94,6 +92,25 @@ sudo raspi-config nonint do_ssh 0
 sudo apt-get install -y tmux
 sudo apt-get autoremove -y
 
+# regenerate ssh key
+sudo rm /etc/ssh/ssh_host_*
+sudo dpkg-reconfigure openssh-server
+sudo systemctl restart ssh
+
+# Blank-out network settings
+cd /etc/wpa_supplicant
+sudo wget -N $REPO_PATH/etc/wpa_supplicant/wpa_supplicant.conf
+cd ~
+
 # Size Reduction
 sudo rm -rf /var/lib/apt/lists/*
 rm -rf ~/.cache/*
+
+# Reset bash history
+history -c
+history -w
+
+# Done
+echo "Setup is complete. Shutting down..."
+sleep 1
+sudo shutdown now
