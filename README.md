@@ -9,9 +9,11 @@ This repository holds the files, documentation and scripts for building Mark 2 P
 
 3. Boot up Mark II device and setup Wi-Fi connection
 
-4. `./base_setup.sh 2>&1 | tee base_setup.log` (takes ~30min)
+4. `sudo mv /boot/base_setup.sh .` (move to home directory)
 
-5. Remove Wi-Fi network from wpa_supplicant 
+5. `./base_setup.sh 2>&1 | tee base_setup.log` (takes ~30min)
+
+6. Remove Wi-Fi network from wpa_supplicant 
 
 ## Mark II Pi Setup
 1. Burn latest Mark II base image to SD Card.
@@ -22,13 +24,9 @@ This repository holds the files, documentation and scripts for building Mark 2 P
 
 4. Boot up Mark II device and setup Wi-Fi connection
 
-5. `./setup.sh 2>&1 | tee setup.log`
+5. `sudo mv /boot/setup.sh .` (move to home directory)
 
-6. Remove Wi-Fi network from wpa_supplicant
-
-7. rm ~/.mycroft/identity/identity2.json
-
-8. rm /var/log/mycroft/* 
+6. `./setup.sh 2>&1 | tee setup.log`
 
 ## Creating Image
 
