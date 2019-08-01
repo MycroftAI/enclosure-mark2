@@ -112,6 +112,8 @@ cd ~
 sudo rm -rf /var/lib/apt/lists/*
 rm -rf ~/.cache/*
 
+sudo raspi-config nonint do_hostname mark_2
+
 # Reset bash history
 history -c
 history -w
