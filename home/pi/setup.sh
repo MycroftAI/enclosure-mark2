@@ -21,6 +21,13 @@
 
 REPO_PATH="https://raw.githubusercontent.com/MycroftAI/enclosure-mark2/master"
 
+test=$(python -c "from mycroft.api import has_been_paired; msg = 'PAIRED' if has_been_paired() else ''; print(msg)" | grep -c PAIRED)
+echo $test
+if ! ((test)) ; then
+    echo "Not paired or no internet."
+    exit 1
+fi
+
 # Update mycroft-core 
 cd mycroft-core
 git pull
