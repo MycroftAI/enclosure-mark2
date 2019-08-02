@@ -122,7 +122,11 @@ cd ~
 sudo rm -rf /var/lib/apt/lists/*
 rm -rf ~/.cache/*
 
+# Hostname
 sudo raspi-config nonint do_hostname mark_2
+
+# Unpair
+rm -f ~/.mycroft/identity/identity2.json
 
 # Reset bash history
 history -c
