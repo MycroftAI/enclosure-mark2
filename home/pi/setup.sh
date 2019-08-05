@@ -21,6 +21,13 @@
 
 REPO_PATH="https://raw.githubusercontent.com/MycroftAI/enclosure-mark2/master"
 
+test=$(python -c "from mycroft.api import has_been_paired; msg = 'PAIRED' if has_been_paired() else ''; print(msg)" | grep -c PAIRED)
+echo $test
+if ! ((test)) ; then
+    echo "Not paired or no internet."
+    exit 1
+fi
+
 # Update mycroft-core 
 cd mycroft-core
 git pull
@@ -88,6 +95,9 @@ sed '/# Google Service Key/r /boot/stt.json' /etc/mycroft/mycroft.conf \
     | python -m json.tool \
     | sudo tee /etc/mycroft/mycroft.conf
 
+# TTS Cache
+python -c "from mycroft.tts.cache_handler import main; main('/opt/mycroft/preloaded_cache/Mimic2')"
+
 # skills
 ~/mycroft-core/bin/mycroft-msm -p mycroft_mark_2pi default
 ~/mycroft-core/bin/mycroft-msm install https://github.com/MycroftAI/skill-mark-2-pi.git
@@ -111,6 +121,12 @@ cd ~
 # Size Reduction
 sudo rm -rf /var/lib/apt/lists/*
 rm -rf ~/.cache/*
+
+# Hostname
+sudo raspi-config nonint do_hostname mark_2
+
+# Unpair
+rm -f ~/.mycroft/identity/identity2.json
 
 # Reset bash history
 history -c
