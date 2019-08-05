@@ -26,7 +26,9 @@ This repository holds the files, documentation and scripts for building Mark 2 P
 
 5. `sudo mv /boot/setup.sh .` (move to home directory)
 
-6. `./setup.sh 2>&1 | tee setup.log`
+6. `source ~/mycroft-core/.venv/bin/activate`
+
+7. `./setup.sh 2>&1 | tee setup.log`
 
 ## Creating Image
 
