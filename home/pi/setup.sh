@@ -45,6 +45,13 @@ rm -rf /opt/mycroft/skills/*
 # Locale fix
 sudo sed -i.bak 's|AcceptEnv LANG LC_\*||' /etc/ssh/sshd_config
 
+# Audio Setup
+sudo echo "Mycroft Mark 2 Pi Audio Settings" | sudo tee -a /etc/pulse/daemon.conf
+sudo echo "resample-method = ffmpeg" | sudo tee -a /etc/pulse/daemon.conf
+sudo echo "default-sample-format = s24le" | sudo tee -a /etc/pulse/daemon.conf
+sudo echo "default-sample-rate = 48000" | sudo tee -a /etc/pulse/daemon.conf
+sudo echo "alternate-sample-rate = 44100" | sudo tee -a /etc/pulse/daemon.conf
+
 # Display Setup
 sudo echo "# Mark 2 Pi Display Settings" | sudo tee -a /boot/config.txt    
 sudo echo "hdmi_force_hotplug=1" | sudo tee -a /boot/config.txt
