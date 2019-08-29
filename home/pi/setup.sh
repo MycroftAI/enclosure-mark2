@@ -78,6 +78,11 @@ sudo plymouth-set-default-theme mycroft-plymouth-theme
 sudo apt-get install -y i2c-tools
 sudo raspi-config nonint do_i2c 0
 
+# LED Support
+sudo mkdir -p /etc/udev/rules.d
+cd /etc/udev/rules.d
+sudo wget -N $REPO_PATH/etc/udev/rules.d/98-mic-array.rules
+
 # Get the Picroft conf file
 cd /etc/mycroft
 sudo wget -N $REPO_PATH/etc/mycroft/mycroft.conf
