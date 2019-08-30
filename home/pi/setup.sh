@@ -52,6 +52,10 @@ sudo echo "default-sample-format = s24le" | sudo tee -a /etc/pulse/daemon.conf
 sudo echo "default-sample-rate = 48000" | sudo tee -a /etc/pulse/daemon.conf
 sudo echo "alternate-sample-rate = 44100" | sudo tee -a /etc/pulse/daemon.conf
 
+cd /etc
+sudo wget -N $REPO_PATH/etc/libao.conf
+cd ~
+
 # Display Setup
 sudo echo "# Mark 2 Pi Display Settings" | sudo tee -a /boot/config.txt    
 sudo echo "hdmi_force_hotplug=1" | sudo tee -a /boot/config.txt
@@ -82,6 +86,7 @@ sudo raspi-config nonint do_i2c 0
 sudo mkdir -p /etc/udev/rules.d
 cd /etc/udev/rules.d
 sudo wget -N $REPO_PATH/etc/udev/rules.d/98-mic-array.rules
+cd ~
 
 # Get the Picroft conf file
 cd /etc/mycroft
