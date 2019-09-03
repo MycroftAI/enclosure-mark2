@@ -79,6 +79,12 @@ sudo apt-get install -y i2c-tools
 sudo raspi-config nonint do_i2c 0
 
 # LED Support
+source /home/pi/mycroft-core/.venv/bin/activate
+git clone --depth 1 https://github.com/respeaker/pixel_ring.git
+cd pixel_ring
+python setup.py install
+cd ~
+
 sudo mkdir -p /etc/udev/rules.d
 cd /etc/udev/rules.d
 sudo wget -N $REPO_PATH/etc/udev/rules.d/98-mic-array.rules
@@ -99,7 +105,6 @@ chmod +x mycroft-wipe
 cd ~
 
 # Streaming STT
-source /home/pi/mycroft-core/.venv/bin/activate
 pip install google-cloud-speech
 # Insert stt key, remove placeholder comment, format and write to file.
 sed '/# Google Service Key/r /boot/stt.json' /etc/mycroft/mycroft.conf \
