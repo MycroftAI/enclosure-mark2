@@ -86,3 +86,20 @@ Script to set up Mark 2 Pi off of Mark II base image.
 
 **etc/wpa_supplicant/wpa_supplicant.conf**
     Wi-Fi config for Mycroft Wifi Setup
+    
+## Flash 48kHz ReSpeaker Firmware
+```
+# Make sure virtual env is activate
+source ~/mycroft-core/.venv/bin/activate
+
+# Install Dependencies
+pip install pyusb
+pip install click
+
+# Clone repo
+git clone https://github.com/respeaker/usb_4_mic_array.git
+cd usb_4_mic_array
+
+# Flash 48k firmware with sudo priviledges
+sudo $(python which) dfu.py --download 48k_1_channel_firmware.bin
+```
