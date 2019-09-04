@@ -55,6 +55,10 @@ sudo echo "unload-module module-role-cork" | sudo tee -a /etc/pulse/daemon.conf
 sudo echo "load-module module-role-ducking" | sudo tee -a /etc/pulse/daemon.conf
 sudo echo "unload-module module-stream-restore" | sudo tee -a /etc/pulse/daemon.conf
 
+cd /etc
+sudo wget -N $REPO_PATH/etc/libao.conf
+cd ~
+
 # Display Setup
 sudo echo "# Mark 2 Pi Display Settings" | sudo tee -a /boot/config.txt    
 sudo echo "hdmi_force_hotplug=1" | sudo tee -a /boot/config.txt
@@ -85,6 +89,7 @@ sudo raspi-config nonint do_i2c 0
 sudo mkdir -p /etc/udev/rules.d
 cd /etc/udev/rules.d
 sudo wget -N $REPO_PATH/etc/udev/rules.d/98-mic-array.rules
+cd ~
 
 # Get the Picroft conf file
 cd /etc/mycroft
