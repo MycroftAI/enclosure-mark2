@@ -100,6 +100,6 @@ pip install click
 git clone https://github.com/respeaker/usb_4_mic_array.git
 cd usb_4_mic_array
 
-# Flash 48k firmware with sudo priviledges
-sudo $(python which) dfu.py --download 48k_1_channel_firmware.bin
+# Flash 48k firmware with sudo priviledges. 
+sudo $(which python) dfu.py --download 48k_1_channel_firmware.bin
 ```
