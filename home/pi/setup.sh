@@ -135,6 +135,7 @@ echo "Precise Cached"
 until grep -q "Training complete" /var/log/mycroft/skills.log; do sleep 5; done
 echo "Intents Cached"
 ~/mycroft-core/stop-mycroft.sh all
+rm /var/log/mycroft/*
 
 # regenerate ssh key
 sudo rm /etc/ssh/ssh_host_*
