@@ -24,11 +24,13 @@ This repository holds the files, documentation and scripts for building Mark 2 P
 
 4. Boot up Mark II device and setup Wi-Fi connection
 
-5. `sudo mv /boot/setup.sh .` (move to home directory)
+5. Pair the device (Easiest to keep pre-paired identity2.json for build purposes)
 
-6. `source ~/mycroft-core/.venv/bin/activate`
+6. `sudo mv /boot/setup.sh .` (move to home directory)
 
-7. `./setup.sh 2>&1 | tee setup.log`
+7. `source ~/mycroft-core/.venv/bin/activate`
+
+8. `./setup.sh 2>&1 | tee setup.log`
 
 ## Creating Image
 
