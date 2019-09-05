@@ -116,9 +116,6 @@ sed '/# Google Service Key/r /boot/stt.json' /etc/mycroft/mycroft.conf \
     | python -m json.tool \
     | sudo tee /etc/mycroft/mycroft.conf
 
-# TTS Cache
-python -c "from mycroft.tts.cache_handler import main; main('/opt/mycroft/preloaded_cache/Mimic2')"
-
 # skills
 ~/mycroft-core/bin/mycroft-msm -p mycroft_mark_2pi default
 ~/mycroft-core/bin/mycroft-msm install https://github.com/MycroftAI/skill-mark-2-pi.git
@@ -128,6 +125,16 @@ cd /opt/mycroft/skills/mycroft-spotify.forslund/ && git pull && cd ~
 sudo raspi-config nonint do_ssh 0
 sudo apt-get install -y tmux
 sudo apt-get autoremove -y
+
+# Run Mycroft until TTS, Intents, and Precise are cached
+source ~/auto_run.sh
+until grep -q "Successfully downloaded Pre-loaded cache" /var/log/mycroft/audio.log; do sleep 5; done
+echo "TTS Cached"
+until grep -q "Precise download complete" /var/log/mycroft/voice.log; do sleep 5; done
+echo "Precise Cached"
+until grep -q "Training complete" /var/log/mycroft/skills.log; do sleep 5; done
+echo "Intents Cached"
+~/mycroft-core/stop-mycroft.sh all
 
 # regenerate ssh key
 sudo rm /etc/ssh/ssh_host_*
