@@ -46,14 +46,14 @@ rm -rf /opt/mycroft/skills/*
 sudo sed -i.bak 's|AcceptEnv LANG LC_\*||' /etc/ssh/sshd_config
 
 # Audio Setup
-sudo echo "Mycroft Mark 2 Pi Audio Settings" | sudo tee -a /etc/pulse/daemon.conf
+sudo echo "# Mycroft Mark 2 Pi Audio Settings" | sudo tee -a /etc/pulse/daemon.conf
 sudo echo "resample-method = ffmpeg" | sudo tee -a /etc/pulse/daemon.conf
 sudo echo "default-sample-format = s24le" | sudo tee -a /etc/pulse/daemon.conf
 sudo echo "default-sample-rate = 48000" | sudo tee -a /etc/pulse/daemon.conf
 sudo echo "alternate-sample-rate = 44100" | sudo tee -a /etc/pulse/daemon.conf
-sudo echo "unload-module module-role-cork" | sudo tee -a /etc/pulse/daemon.conf
-sudo echo "load-module module-role-ducking" | sudo tee -a /etc/pulse/daemon.conf
-sudo echo "unload-module module-stream-restore" | sudo tee -a /etc/pulse/daemon.conf
+sudo echo "unload-module module-role-cork" | sudo tee -a /etc/pulse/default.pa
+sudo echo "load-module module-role-ducking" | sudo tee -a /etc/pulse/default.pa
+sudo echo "unload-module module-stream-restore" | sudo tee -a /etc/pulse/default.pa
 
 cd /etc
 sudo wget -N $REPO_PATH/etc/libao.conf
