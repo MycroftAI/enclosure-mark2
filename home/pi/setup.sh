@@ -132,6 +132,11 @@ until grep -q "Successfully downloaded Pre-loaded cache" /var/log/mycroft/audio.
 echo "TTS Cached"
 until grep -q "Precise download complete" /var/log/mycroft/voice.log; do sleep 5; done
 echo "Precise Cached"
+until egrep -q "(Training complete|Some objects timed out while training)" /var/log/mycroft/skills.log; do sleep 5; done
+if grep -q "Some objects timed out while training" /var/log/mycroft/skills.log; then
+    echo "Training timed out. Restarting training..."
+    python -m mycroft.messagebus.send mycroft.skills.initialized
+fi
 until grep -q "Training complete" /var/log/mycroft/skills.log; do sleep 5; done
 echo "Intents Cached"
 ~/mycroft-core/stop-mycroft.sh all
