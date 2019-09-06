@@ -7,7 +7,7 @@ This repository holds the files, documentation and scripts for building Mark 2 P
 
 2. Move base_setup.sh to /boot partition of card
 
-3. Boot up Mark II device and setup Wi-Fi connection
+3. Boot up device and setup Wi-Fi connection
 
 4. `sudo mv /boot/base_setup.sh .` (move to home directory)
 
@@ -16,21 +16,31 @@ This repository holds the files, documentation and scripts for building Mark 2 P
 6. Remove Wi-Fi network from wpa_supplicant 
 
 ## Mark II Pi Setup
-1. Burn latest Mark II base image to SD Card.
+1. Burn latest Mark II base image to SD Card. (~6 min for 16GB card)
 
-2. Move setup.sh to /boot partition of card
+2. Move build files to /boot partition of card:
+    - wpa_supplicant.conf (With valid network creds)
+    - identity2.json (Pre-paired on home.mycroft.ai)
+    - stt.json (Google Streaming STT Service key)
+    - setup.sh
 
-3. Move Google Streaming STT service account key to /boot partition of card as stt.txt
+3. Boot up device and move files to appropriate locations:
+```
+sudo mv /boot/wpa_supplicant.conf /etc/wpa_supplicant/
+sudo mv /boot/identity2.json ~/.mycroft/identity/
+sudo mv /boot/setup.sh .
+```
 
-4. Boot up Mark II device and setup Wi-Fi connection
+4. Connect to the internet
+```
+sudo wpa_cli -i wlan0 reconfigure
+```
 
-5. Pair the device (Easiest to keep pre-paired identity2.json for build purposes)
-
-6. `sudo mv /boot/setup.sh .` (move to home directory)
-
-7. `source ~/mycroft-core/.venv/bin/activate`
-
-8. `./setup.sh 2>&1 | tee setup.log`
+5. Run setup (~12 min)
+```
+source ~/mycroft-core/.venv/bin/activate
+bash setup.sh 2>&1 | tee setup.log
+```
 
 ## Creating Image
 
