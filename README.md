@@ -16,7 +16,7 @@ This repository holds the files, documentation and scripts for building Mark 2 P
 6. Remove Wi-Fi network from wpa_supplicant 
 
 ## Mark II Pi Setup
-1. Burn latest Mark II base image to SD Card.
+1. Burn latest Mark II base image to SD Card. (~6 min for 16GB card)
 
 2. Move build files to /boot partition of card:
     - wpa_supplicant.conf (With valid network creds)
@@ -36,7 +36,7 @@ sudo mv /boot/setup.sh .
 sudo wpa_cli -i wlan0 reconfigure
 ```
 
-5. Run setup
+5. Run setup (~12 min)
 ```
 source ~/mycroft-core/.venv/bin/activate
 bash setup.sh 2>&1 | tee setup.log
