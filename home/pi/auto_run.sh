@@ -51,7 +51,7 @@ then
 
     # Launch Mycroft Services ======================
     bash "$HOME/mycroft-core/start-mycroft.sh" all > /dev/null 2>&1
-    python mic_monitor.py >> /var/log/mycroft/mic-watchdog.log  2>&1 &
+    python mic_monitor.py >> /var/log/mycroft/mic_monitor.log  2>&1 &
 else
     # running in SSH session
     echo
