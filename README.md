@@ -2,6 +2,8 @@
 
 This repository holds the files, documentation and scripts for building Mark 2 Pi device images.
 
+Currently this build is based off of the latest Mark 1 image. `base_setup.sh` is run to convert the Mark 1 image to a Mark 2 Base image so the ~30 minute `dev_setup.sh` does not have to be repeated for every image. Then off of the Mark 2 Pi Base image `setup.sh` is run which will get a working Mark 2 Pi image. Sometimes newer images are made off of this image if the change is as ligth as pulling the latest from dev and updating skills.
+
 ## Mark II Pi Base Image Setup
 1. Burn latest Mark I prod image to SD Card.
 
@@ -53,18 +55,19 @@ OSX (/dev/rdiskX)
 sudo dd if=/dev/rdisk2 of=mark2pi-20190718-raw.img bs=20m
 ```
 
-2. (OSX) Run Ubuntu Docker container for steps 7 and 8
+2. (OSX) Run Ubuntu Docker container for steps 7 and 8, mounts
+the current working directory to `/images` in the Docker container.
 ```
-docker run --privileged --rm -it -v ${PWD}:/shrink ubuntu:18.04
+docker run --privileged --rm -it -v ${PWD}:/images ubuntu:18.04
 ```
 
 3. PiShrink
 ```
 apt-get update
-apt-get install git parted zip
+apt-get install -y git parted zip
 git clone https://github.com/Drewsif/PiShrink.git
 export PATH=/PiShrink/:${PATH}
-cd /shrink
+cd /images
 pishrink.sh mark2pi-20190718-raw.img mark2pi-20190718-shrink.img
 ```
 
@@ -115,3 +118,6 @@ cd usb_4_mic_array
 # Flash 48k firmware with sudo priviledges. 
 sudo $(which python) dfu.py --download 48k_1_channel_firmware.bin
 ```
+
+## Update Mark 2 Pi Image
+A quick update to the image will pull the latest for core with `cd ~/mycroft-core && git pull` and update the skills. This can be done by pairing the device and running `python -m mycroft.messagebus.send skillmanager.update`.
