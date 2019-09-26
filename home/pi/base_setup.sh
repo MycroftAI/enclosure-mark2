@@ -33,7 +33,7 @@ sudo apt-get install -y mycroft-wifi-setup
 # mycroft-core
 git clone https://github.com/MycroftAI/mycroft-core.git
 cd mycroft-core
-IS_TRAVIS=true bash dev_setup.sh 2>&1 | tee ../build.log
+CI=true bash dev_setup.sh 2>&1 | tee ../build.log
 # Keep for now.
 #rm ../build.log
 cd ~
