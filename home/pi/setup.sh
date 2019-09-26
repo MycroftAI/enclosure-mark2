@@ -31,7 +31,7 @@ fi
 # Update mycroft-core 
 cd mycroft-core
 git pull
-IS_TRAVIS=true bash dev_setup.sh 2>&1 | tee ../dev_setup.log
+CI=true bash dev_setup.sh 2>&1 | tee ../dev_setup.log
 cd ~
 
 # Correct permissions from Mark 1 (which used the 'mycroft' user to run)
