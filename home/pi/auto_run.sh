@@ -29,8 +29,6 @@ function screen_logo() {
     cat mycroft.fb > /dev/fb0
 }
 
-export PATH="$HOME/bin:$HOME/mycroft-core/bin:$PATH"
-
 source mycroft-core/venv-activate.sh -q
 
 if [ "$SSH_CLIENT" == "" ] && [ "$(/usr/bin/tty)" = "/dev/tty1" ];
@@ -42,16 +40,6 @@ then
 
     # Set audio output volume to a reasonable level initially
     sudo i2cset -y 1 0x4b 25
-
-    # Launch pulseaudio if needed
-    if ! pidof pulseaudio > /dev/null; then
-        pulseaudio -D
-        sleep 1
-    fi
-
-    # Launch Mycroft Services ======================
-    bash "$HOME/mycroft-core/start-mycroft.sh" all > /dev/null 2>&1
-    python mic_monitor.py >> /var/log/mycroft/mic_monitor.log  2>&1 &
 else
     # running in SSH session
     echo
