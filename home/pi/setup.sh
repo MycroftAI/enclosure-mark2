@@ -39,6 +39,42 @@ rm -rf /opt/mycroft/skills/*
 # Locale fix
 sudo sed -i.bak 's|AcceptEnv LANG LC_\*||' /etc/ssh/sshd_config
 
+DEFAULT_PA="/etc/pulse/default.pa"
+PULSE_CLIENT="/etc/pulse/client.conf"
+
+function update_pulse_default_pa () {
+    if grep -q "Mycroft additions 0.1" ${DEFAULT_PA} ; then
+        echo "Updating pulse default.pa"
+        # Remove old changes
+        sed -i '/Mycroft additions 0.1/Q' ${DEFAULT_PA}
+
+        cat >> ${DEFAULT_PA} <<- EOF
+## Mycroft additions 0.2 Start
+## Mycroft additions End
+EOF
+    else
+        echo "${DEFAULT_PA} is already patched"
+    fi
+}
+
+
+function update_pulse_client () {
+    if grep -q "Mycroft additions 0.1" ${PULSE_CLIENT} ; then
+        echo "Updateing pulse client.conf"
+        # Remove old changes
+        sed -i '/Mycroft additions 0.1/Q' ${PULSE_CLIENT}
+        cat >> ${PULSE_CLIENT} <<- EOF
+## Mycroft additions 0.2 Start
+## Mycroft additions End
+EOF
+    else
+        echo "${PULSE_CLIENT} is already patched"
+    fi
+}
+
+update_pulse_default_pa
+update_pulse_pulse_client
+
 # Audio Setup
 sudo echo "# Mycroft Mark 2 Pi Audio Settings" | sudo tee -a /etc/pulse/daemon.conf
 sudo echo "resample-method = ffmpeg" | sudo tee -a /etc/pulse/daemon.conf
