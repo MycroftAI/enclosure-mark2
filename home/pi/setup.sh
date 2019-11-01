@@ -140,7 +140,6 @@ cd ~
 
 # Streaming STT
 source /home/pi/mycroft-core/.venv/bin/activate
-pip install google-cloud-speech
 # Insert stt key, remove placeholder comment, format and write to file.
 sed '/# Google Service Key/r /boot/stt.json' /etc/mycroft/mycroft.conf \
     | sed 's|# Google Service.*||' \
