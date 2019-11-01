@@ -27,8 +27,6 @@ sudo apt-get purge -y mycroft-core
 sudo rm -rf /opt/venvs/mycroft-core/
 
 # Update mycroft-wifi-setup so update does not reinstall mycroft-core package
-sudo apt-get update -y
+sudo apt-get update
 sudo apt-get install -y mycroft-wifi-setup
 sudo apt-get install -y mycroft-mark2
-
-cd ~
