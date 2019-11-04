@@ -156,20 +156,18 @@ sudo apt-get autoremove -y
 
 # Run Mycroft until TTS, Intents, and Precise are cached
 sudo systemctl restart mycroft-*
-until grep -q "Successfully downloaded Pre-loaded cache" /var/log/mycroft/audio.log; do sleep 5; done
+until grep -q "Successfully downloaded Pre-loaded cache" <(sudo journalctl -u mycroft-audio); do sleep 5; done
 echo "TTS Cached"
-until grep -q "Precise download complete" /var/log/mycroft/voice.log; do sleep 5; done
+until grep -q "Precise download complete"<(sudo journalctl -u mycroft-voice); do sleep 5; done
 echo "Precise Cached"
-until egrep -q "(Training complete|Some objects timed out while training)" /var/log/mycroft/skills.log; do sleep 5; done
-if grep -q "Some objects timed out while training" /var/log/mycroft/skills.log; then
+until egrep -q "(Training complete|Some objects timed out while training)" <(sudo journalctl -u mycroft-skills); do sleep 5; done
+if grep -q "Some objects timed out while training" <(sudo journalctl -u mycroft-skills); then
     echo "Training timed out. Restarting training..."
     python -m mycroft.messagebus.send mycroft.skills.initialized
 fi
-until grep -q "Training complete" /var/log/mycroft/skills.log; do sleep 5; done
+until grep -q "Training complete" <(sudo journalctl -u mycroft-skill); do sleep 5; done
 echo "Intents Cached"
 ~/mycroft-core/stop-mycroft.sh all
-mkdir cache_run_logs
-mv /var/log/mycroft/* cache_run_logs
 
 # regenerate ssh key
 sudo rm /etc/ssh/ssh_host_*
