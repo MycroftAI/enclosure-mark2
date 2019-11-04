@@ -152,7 +152,6 @@ mycroft-msm install https://github.com/MycroftAI/skill-mark-2-pi.git
 
 # Development
 sudo raspi-config nonint do_ssh 0
-sudo apt-get install -y tmux
 sudo apt-get autoremove -y
 
 # Run Mycroft until TTS, Intents, and Precise are cached
