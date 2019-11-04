@@ -147,9 +147,8 @@ sed '/# Google Service Key/r /boot/stt.json' /etc/mycroft/mycroft.conf \
     | sudo tee /etc/mycroft/mycroft.conf
 
 # skills
-~/mycroft-core/bin/mycroft-msm -p mycroft_mark_2pi default
-~/mycroft-core/bin/mycroft-msm install https://github.com/MycroftAI/skill-mark-2-pi.git
-cd /opt/mycroft/skills/mycroft-spotify.forslund/ && git pull && cd ~
+mycroft-msm -p mycroft_mark_2pi default
+mycroft-msm install https://github.com/MycroftAI/skill-mark-2-pi.git
 
 # Development
 sudo raspi-config nonint do_ssh 0
