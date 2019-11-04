@@ -26,7 +26,10 @@ sudo rm /etc/cron.hourly/mycroft-core
 sudo apt-get purge -y mycroft-core
 sudo rm -rf /opt/venvs/mycroft-core/
 
+# Run unstable builds
+sudo bash -c 'echo "deb http://repo.mycroft.ai/repos/apt/debian debian-unstable main" > /etc/apt/sources.list.d/repo.mycroft.ai.list'
+
 # Update mycroft-wifi-setup so update does not reinstall mycroft-core package
 sudo apt-get update
 sudo apt-get install -y mycroft-wifi-setup
-sudo apt-get install -y mycroft-mark2
+sudo apt-get install -y mycroft-mark-2
