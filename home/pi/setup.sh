@@ -139,7 +139,7 @@ chmod +x mycroft-wipe
 cd ~
 
 # Streaming STT
-source /home/pi/mycroft-core/.venv/bin/activate
+source /opt/venvs/mycroft-core/bin/activate
 # Insert stt key, remove placeholder comment, format and write to file.
 sed '/# Google Service Key/r /boot/stt.json' /etc/mycroft/mycroft.conf \
     | sed 's|# Google Service.*||' \
@@ -157,7 +157,7 @@ sudo apt-get install -y tmux
 sudo apt-get autoremove -y
 
 # Run Mycroft until TTS, Intents, and Precise are cached
-source ~/auto_run.sh
+sudo systemctl restart mycroft-*
 until grep -q "Successfully downloaded Pre-loaded cache" /var/log/mycroft/audio.log; do sleep 5; done
 echo "TTS Cached"
 until grep -q "Precise download complete" /var/log/mycroft/voice.log; do sleep 5; done
