@@ -73,7 +73,7 @@ EOF
 }
 
 update_pulse_default_pa
-update_pulse_pulse_client
+update_pulse_client
 
 # Audio Setup
 sudo echo "# Mycroft Mark 2 Pi Audio Settings" | sudo tee -a /etc/pulse/daemon.conf
