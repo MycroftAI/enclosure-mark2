@@ -29,11 +29,6 @@ sudo rm -rf /opt/venvs/mycroft-core/
 # Update mycroft-wifi-setup so update does not reinstall mycroft-core package
 sudo apt-get update -y
 sudo apt-get install -y mycroft-wifi-setup
+sudo apt-get install -y mycroft-mark2
 
-# mycroft-core
-git clone https://github.com/MycroftAI/mycroft-core.git
-cd mycroft-core
-CI=true bash dev_setup.sh 2>&1 | tee ../build.log
-# Keep for now.
-#rm ../build.log
 cd ~
