@@ -40,7 +40,7 @@ sudo wpa_cli -i wlan0 reconfigure
 
 5. Run setup (~12 min)
 ```
-source ~/mycroft-core/.venv/bin/activate
+source /opt/venvs/mycroft-core/bin/activate
 bash setup.sh 2>&1 | tee setup.log
 ```
 
