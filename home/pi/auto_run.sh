@@ -29,7 +29,7 @@ function screen_logo() {
     cat mycroft.fb > /dev/fb0
 }
 
-source mycroft-core/venv-activate.sh -q
+source /opt/venvs/mycroft-core/bin/activate
 
 if [ "$SSH_CLIENT" == "" ] && [ "$(/usr/bin/tty)" = "/dev/tty1" ];
 then
