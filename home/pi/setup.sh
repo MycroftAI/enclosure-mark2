@@ -158,7 +158,7 @@ sudo apt-get autoremove -y
 sudo systemctl restart mycroft-messagebus
 sudo systemctl restart mycroft-speech-client
 sudo systemctl restart mycroft-skills
-sudo systemctl restart mycroft-enclosure
+sudo systemctl restart mycroft-enclosure-client
 sudo systemctl restart mycroft-audio
 
 until grep -q "Successfully downloaded Pre-loaded cache" <(sudo journalctl -u mycroft-audio); do sleep 5; done
@@ -175,7 +175,7 @@ echo "Intents Cached"
 sudo systemctl stop mycroft-messagebus
 sudo systemctl stop mycroft-speech-client
 sudo systemctl stop mycroft-skills
-sudo systemctl stop mycroft-enclosure
+sudo systemctl stop mycroft-enclosure-client
 sudo systemctl stop mycroft-audio
 
 # Populate Mimic2 Cache with Kusal Wifi/Pairing Setup Recordings
