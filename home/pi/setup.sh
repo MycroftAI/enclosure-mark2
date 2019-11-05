@@ -131,6 +131,7 @@ wget -N $REPO_PATH/home/pi/.bashrc
 wget -N $REPO_PATH/home/pi/auto_run.sh
 wget -N $REPO_PATH/home/pi/mic_monitor.py
 wget -N $REPO_PATH/home/pi/mycroft.fb
+wget -N $REPO_PATH/home/pi/reset.sh
 
 mkdir -p ~/bin
 cd ~/bin
