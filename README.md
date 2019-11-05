@@ -2,7 +2,7 @@
 
 This repository holds the files, documentation and scripts for building Mark 2 Pi device images.
 
-Currently this build is based off of the latest Mark 1 image. `base_setup.sh` is run to convert the Mark 1 image to a Mark 2 Base image so the ~30 minute `dev_setup.sh` does not have to be repeated for every image. Then off of the Mark 2 Pi Base image `setup.sh` is run which will get a working Mark 2 Pi image. Sometimes newer images are made off of this image if the change is as ligth as pulling the latest from dev and updating skills.
+Currently this build is based off of the latest Mark 1 image. `base_setup.sh` is run to convert the Mark 1 image to one with the mycroft-mark-2 package. Then `setup.sh` is run which will add the rest of the Mark 2 Pi specific setup.
 
 ## Mark II Pi Image Setup
 1. Burn latest Mark I prod image to SD Card.
