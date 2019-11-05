@@ -25,6 +25,7 @@ Currently this build is based off of the latest Mark 1 image. `base_setup.sh` is
     - identity2.json (Pre-paired on home.mycroft.ai)
     - stt.json (Google Streaming STT Service key)
     - setup.sh
+    - Kusal TTS Setup Recordings
 
 3. Boot up device and move files to appropriate locations:
 ```
