@@ -163,7 +163,7 @@ sudo systemctl restart mycroft-audio
 
 until grep -q "Successfully downloaded Pre-loaded cache" <(sudo journalctl -u mycroft-audio); do sleep 5; done
 echo "TTS Cached"
-until grep -q "Precise download complete"<(sudo journalctl -u mycroft-voice); do sleep 5; done
+until grep -q "Precise download complete" <(sudo journalctl -u mycroft-speech-client); do sleep 5; done
 echo "Precise Cached"
 until egrep -q "(Training complete|Some objects timed out while training)" <(sudo journalctl -u mycroft-skills); do sleep 5; done
 if grep -q "Some objects timed out while training" <(sudo journalctl -u mycroft-skills); then
