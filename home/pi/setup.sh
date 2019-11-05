@@ -172,7 +172,11 @@ if grep -q "Some objects timed out while training" <(sudo journalctl -u mycroft-
 fi
 until grep -q "Training complete" <(sudo journalctl -u mycroft-skills); do sleep 5; done
 echo "Intents Cached"
-~/mycroft-core/stop-mycroft.sh all
+sudo systemctl stop mycroft-messagebus
+sudo systemctl stop mycroft-speech-client
+sudo systemctl stop mycroft-skills
+sudo systemctl stop mycroft-enclosure
+sudo systemctl stop mycroft-audio
 
 # regenerate ssh key
 sudo rm /etc/ssh/ssh_host_*
