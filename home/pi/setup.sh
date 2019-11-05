@@ -178,6 +178,9 @@ sudo systemctl stop mycroft-skills
 sudo systemctl stop mycroft-enclosure
 sudo systemctl stop mycroft-audio
 
+# Populate Mimic2 Cache with Kusal Wifi/Pairing Setup Recordings
+sudo mv /boot/Kusal-TTS-Cache/* /opt/mycroft/preloaded_cache/Mimic2/
+
 # regenerate ssh key
 sudo rm /etc/ssh/ssh_host_*
 sudo dpkg-reconfigure openssh-server
