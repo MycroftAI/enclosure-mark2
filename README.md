@@ -31,6 +31,7 @@ Currently this build is based off of the latest Mark 1 image. `base_setup.sh` is
 ```
 sudo mv /boot/wpa_supplicant.conf /etc/wpa_supplicant/
 sudo mv /boot/identity2.json ~/.mycroft/identity/
+sudo chown pi:pi ~/.mycroft/identity/identity2.json
 sudo mv /boot/setup.sh .
 ```
 
