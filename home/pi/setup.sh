@@ -155,7 +155,12 @@ sudo raspi-config nonint do_ssh 0
 sudo apt-get autoremove -y
 
 # Run Mycroft until TTS, Intents, and Precise are cached
-sudo systemctl restart mycroft-*
+sudo systemctl restart mycroft-messagebus
+sudo systemctl restart mycroft-speech-client
+sudo systemctl restart mycroft-skills
+sudo systemctl restart mycroft-enclosure
+sudo systemctl restart mycroft-audio
+
 until grep -q "Successfully downloaded Pre-loaded cache" <(sudo journalctl -u mycroft-audio); do sleep 5; done
 echo "TTS Cached"
 until grep -q "Precise download complete"<(sudo journalctl -u mycroft-voice); do sleep 5; done
