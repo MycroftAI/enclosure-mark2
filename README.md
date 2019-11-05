@@ -119,5 +119,56 @@ cd usb_4_mic_array
 sudo $(which python) dfu.py --download 48k_1_channel_firmware.bin
 ```
 
+## Update Core and Skills
+
+Burn 10.18 to sd card with Balena Etcher (MacOS)
+
+Boot Mark 2 Pi up and complete Wi-Fi setup
+
+Complete pairing on Home with account with no devices (If Spotify / Pandora creds or other settings get pulled down from other device settings those need to be wiped, safer to use fresh blank Home account)
+
+ssh in to the device
+```
+# Stop Mic Monitor
+ps aux | grep mic # get pid
+kill -9 {pid}
+
+# Stop Core
+~/mycroft-core/stop-mycroft.sh all
+
+# Update core
+cd mycroft-core
+git pull
+CI=true ./dev_setup.sh
+
+# Force Skills Update
+rm /opt/mycroft/skills/.msm
+~/mycroft-core/start-mycroft.sh all
+
+# Confirm Skill Update Complete
+tail -f /var/log/mycroft/skills.log # look for “Skill update complete” log.
+
+# Wipe Wi-Fi creds, paired identity and logs
+cd ~
+./reset.sh
+```
+
+Let’s be paranoid. Cat these files and ensure there are no credentials remaining:
+/etc/wpa_supplicant/wpa_supplicant.conf
+            /opt/mycroft/skills/mycroft-spotify.forslund/settings.json
+            /opt/mycroft/skills/mycroft-pandora.mycroft/settings.json
+            ~/.config/pianobar/*
+
+           And also check that ~/.mycroft/identity2.json and /var/logs/mycroft/* have been removed.
+
+```
+history -c
+history -w
+sudo shutdown now
+```
+
+Follow image creation steps in repo
+
+
 ## Update Mark 2 Pi Image
 A quick update to the image will pull the latest for core with `cd ~/mycroft-core && git pull` and update the skills. This can be done by pairing the device and running `python -m mycroft.messagebus.send skillmanager.update`.
