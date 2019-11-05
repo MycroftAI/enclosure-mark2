@@ -170,7 +170,7 @@ if grep -q "Some objects timed out while training" <(sudo journalctl -u mycroft-
     echo "Training timed out. Restarting training..."
     python -m mycroft.messagebus.send mycroft.skills.initialized
 fi
-until grep -q "Training complete" <(sudo journalctl -u mycroft-skill); do sleep 5; done
+until grep -q "Training complete" <(sudo journalctl -u mycroft-skills); do sleep 5; done
 echo "Intents Cached"
 ~/mycroft-core/stop-mycroft.sh all
 
