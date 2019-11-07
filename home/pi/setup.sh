@@ -140,8 +140,7 @@ chmod +x mycroft-wipe
 cd ~
 
 # Streaming STT
-source /home/pi/mycroft-core/.venv/bin/activate
-pip install google-cloud-speech
+source /opt/venvs/mycroft-core/bin/activate
 # Insert stt key, remove placeholder comment, format and write to file.
 sed '/# Google Service Key/r /boot/stt.json' /etc/mycroft/mycroft.conf \
     | sed 's|# Google Service.*||' \
@@ -149,31 +148,39 @@ sed '/# Google Service Key/r /boot/stt.json' /etc/mycroft/mycroft.conf \
     | sudo tee /etc/mycroft/mycroft.conf
 
 # skills
-~/mycroft-core/bin/mycroft-msm -p mycroft_mark_2pi default
-~/mycroft-core/bin/mycroft-msm install https://github.com/MycroftAI/skill-mark-2-pi.git
-cd /opt/mycroft/skills/mycroft-spotify.forslund/ && git pull && cd ~
+msm -p mycroft_mark_2pi default
+msm install https://github.com/MycroftAI/skill-mark-2-pi.git
 
 # Development
 sudo raspi-config nonint do_ssh 0
-sudo apt-get install -y tmux
 sudo apt-get autoremove -y
 
 # Run Mycroft until TTS, Intents, and Precise are cached
-source ~/auto_run.sh
-until grep -q "Successfully downloaded Pre-loaded cache" /var/log/mycroft/audio.log; do sleep 5; done
+sudo systemctl restart mycroft-messagebus
+sudo systemctl restart mycroft-speech-client
+sudo systemctl restart mycroft-skills
+sudo systemctl restart mycroft-enclosure-client
+sudo systemctl restart mycroft-audio
+
+until grep -q "Successfully downloaded Pre-loaded cache" <(sudo journalctl -u mycroft-audio); do sleep 5; done
 echo "TTS Cached"
-until grep -q "Precise download complete" /var/log/mycroft/voice.log; do sleep 5; done
+#until grep -q "Precise download complete" <(sudo journalctl -u mycroft-speech-client); do sleep 5; done
 echo "Precise Cached"
-until egrep -q "(Training complete|Some objects timed out while training)" /var/log/mycroft/skills.log; do sleep 5; done
-if grep -q "Some objects timed out while training" /var/log/mycroft/skills.log; then
+until egrep -q "(Training complete|Some objects timed out while training)" <(sudo journalctl -u mycroft-skills); do sleep 5; done
+if grep -q "Some objects timed out while training" <(sudo journalctl -u mycroft-skills); then
     echo "Training timed out. Restarting training..."
     python -m mycroft.messagebus.send mycroft.skills.initialized
 fi
-until grep -q "Training complete" /var/log/mycroft/skills.log; do sleep 5; done
+until grep -q "Training complete" <(sudo journalctl -u mycroft-skills); do sleep 5; done
 echo "Intents Cached"
-~/mycroft-core/stop-mycroft.sh all
-mkdir cache_run_logs
-mv /var/log/mycroft/* cache_run_logs
+sudo systemctl stop mycroft-messagebus
+sudo systemctl stop mycroft-speech-client
+sudo systemctl stop mycroft-skills
+sudo systemctl stop mycroft-enclosure-client
+sudo systemctl stop mycroft-audio
+
+# Populate Mimic2 Cache with Kusal Wifi/Pairing Setup Recordings
+sudo mv /boot/Kusal-TTS-Cache/* /opt/mycroft/preloaded_cache/Mimic2/
 
 # regenerate ssh key
 sudo rm /etc/ssh/ssh_host_*

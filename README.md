@@ -2,45 +2,50 @@
 
 This repository holds the files, documentation and scripts for building Mark 2 Pi device images.
 
-Currently this build is based off of the latest Mark 1 image. `base_setup.sh` is run to convert the Mark 1 image to a Mark 2 Base image so the ~30 minute `dev_setup.sh` does not have to be repeated for every image. Then off of the Mark 2 Pi Base image `setup.sh` is run which will get a working Mark 2 Pi image. Sometimes newer images are made off of this image if the change is as ligth as pulling the latest from dev and updating skills.
+Currently this build is based off of the latest Mark 1 image. `base_setup.sh` is run to convert the Mark 1 image to one with the mycroft-mark-2 package. Then `setup.sh` is run which will add the rest of the Mark 2 Pi specific setup.
 
-## Mark II Pi Base Image Setup
+## Mark II Pi Image Setup
 1. Burn latest Mark I prod image to SD Card.
 
-2. Move base_setup.sh to /boot partition of card
-
-3. Boot up device and setup Wi-Fi connection
-
-4. `sudo mv /boot/base_setup.sh .` (move to home directory)
-
-5. `./base_setup.sh 2>&1 | tee base_setup.log` (takes ~30min)
-
-6. Remove Wi-Fi network from wpa_supplicant 
-
-## Mark II Pi Setup
-1. Burn latest Mark II base image to SD Card. (~6 min for 16GB card)
-
-2. Move build files to /boot partition of card:
+2. Re-mount SD Card and move build files to /boot partition of card (/Volumes/boot MacOS):
     - wpa_supplicant.conf (With valid network creds)
     - identity2.json (Pre-paired on home.mycroft.ai)
     - stt.json (Google Streaming STT Service key)
+    - Kusal TTS Setup Recordings
+    - base_setup.sh
     - setup.sh
 
 3. Boot up device and move files to appropriate locations:
 ```
 sudo mv /boot/wpa_supplicant.conf /etc/wpa_supplicant/
 sudo mv /boot/identity2.json ~/.mycroft/identity/
+sudo chown pi:pi ~/.mycroft/identity/identity2.json
+sudo mv /boot/base_setup.sh .
 sudo mv /boot/setup.sh .
 ```
 
 4. Connect to the internet
 ```
+sudo reboot
+
+# or if you are too lazy to reboot
 sudo wpa_cli -i wlan0 reconfigure
 ```
 
-5. Run setup (~12 min)
+To continue with SSH you can run this command:
 ```
-source ~/mycroft-core/.venv/bin/activate
+sudo raspi-config nonint do_ssh 0
+```
+
+5. Run base setup (will have to answer with 'y' for installing mycroft.conf file)
+```
+./base_setup.sh 2>&1 | tee base_setup.log
+sudo reboot
+```
+
+6. Run setup
+```
+source /opt/venvs/mycroft-core/bin/activate
 bash setup.sh 2>&1 | tee setup.log
 ```
 

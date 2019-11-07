@@ -29,9 +29,10 @@ class MicrophoneMonitor:
     def __init__(self):
         self.mic_level_path = '/ramdisk/mycroft/ipc/mic_level'
         self.restart_voice_command = (
-                '/home/pi/mycroft-core/start-mycroft.sh',
-                'voice',
-                'restart'
+                'sudo',
+                'systemctl',
+                'restart',
+                'mycroft-speech-client'
             )
         self.interval = 60
         self.startup_delay = 60
